@@ -1,0 +1,33 @@
+{
+  "committed_digest": null,
+  "legs": {
+    "k_only": {
+      "K": "lr-op-11d26bb926-a1",
+      "attempts": [
+        {
+          "digest_returned": null,
+          "http_status": 404,
+          "note": "unwrapped upstream MCP server has no K-indexed recovery endpoint",
+          "path": "direct K lookup (unwrapped server offers none)",
+          "response_class": "not_found"
+        }
+      ],
+      "reason": "K-only recovery did not return the original committed outcome; the direct record lookup by K returned not found and no K-keyed lookup returned the committed digest",
+      "score": "fail"
+    },
+    "run_id": {
+      "digests_served": {},
+      "http_status": 200,
+      "note": "Section 9 resolution returned the unaltered record from the public JSON record; Section 6 recomputation is the harness's own SHA-256 over the decoded canonical bytes compared with the served output_hash, recorded in the recomputation block.",
+      "page_http_status": null,
+      "receipt_id": "T-1",
+      "recomputation": {
+        "reason": "unwrapped upstream MCP provider emits no signed receipts or digests",
+        "status": "not_computable"
+      },
+      "score": "fail"
+    }
+  },
+  "reason": "contract pass condition is the K-only leg: K-only recovery did not return the original committed outcome; the direct record lookup by K returned not found and no K-keyed lookup returned the committed digest; run-id leg scored fail separately in the evidence",
+  "score": "fail"
+}

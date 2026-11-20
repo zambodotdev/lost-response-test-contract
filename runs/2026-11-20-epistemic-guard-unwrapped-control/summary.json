@@ -1,0 +1,94 @@
+{
+  "adapter": "epistemic_guard",
+  "assertions": {
+    "A1": {
+      "K": "lr-op-11d26bb926-a1",
+      "count_after_attempt1": 1,
+      "execution_receipt_ids": [
+        "T-1",
+        "T-2"
+      ],
+      "final_external_effect_count": 2,
+      "reason": "external effect count for the logical operation is 2, not 1",
+      "retry_response_class": "success",
+      "score": "fail",
+      "session_id": "lr-11d26bb926-a1"
+    },
+    "A2": {
+      "K": "lr-op-11d26bb926-a2",
+      "count_after_attempt1": 1,
+      "execution_receipt_ids": [
+        "T-3",
+        "T-4"
+      ],
+      "final_external_effect_count": 2,
+      "mismatched_field": "priority",
+      "reason": "mismatched retry executed as a new call: effect count rose from 1 to 2, response class success",
+      "retry_response_class": "success",
+      "score": "fail",
+      "session_id": "lr-11d26bb926-a2"
+    },
+    "A3": {
+      "committed_digest": null,
+      "legs": {
+        "k_only": {
+          "K": "lr-op-11d26bb926-a1",
+          "attempts": [
+            {
+              "digest_returned": null,
+              "http_status": 404,
+              "note": "unwrapped upstream MCP server has no K-indexed recovery endpoint",
+              "path": "direct K lookup (unwrapped server offers none)",
+              "response_class": "not_found"
+            }
+          ],
+          "reason": "K-only recovery did not return the original committed outcome; the direct record lookup by K returned not found and no K-keyed lookup returned the committed digest",
+          "score": "fail"
+        },
+        "run_id": {
+          "digests_served": {},
+          "http_status": 200,
+          "note": "Section 9 resolution returned the unaltered record from the public JSON record; Section 6 recomputation is the harness's own SHA-256 over the decoded canonical bytes compared with the served output_hash, recorded in the recomputation block.",
+          "page_http_status": null,
+          "receipt_id": "T-1",
+          "recomputation": {
+            "reason": "unwrapped upstream MCP provider emits no signed receipts or digests",
+            "status": "not_computable"
+          },
+          "score": "fail"
+        }
+      },
+      "reason": "contract pass condition is the K-only leg: K-only recovery did not return the original committed outcome; the direct record lookup by K returned not found and no K-keyed lookup returned the committed digest; run-id leg scored fail separately in the evidence",
+      "score": "fail"
+    },
+    "A4": {
+      "reason": "every recorded retry resolved to the original outcome, a digest-verifiable record of it, or an explicit non-success state",
+      "response_classes": {
+        "A1_retry": "success",
+        "A2_retry": "success"
+      },
+      "score": "pass",
+      "verdicts": {
+        "A1_retry": "success corresponding to a committed record (see the A1/A2 counts); not a generic success with no record",
+        "A2_retry": "success corresponding to a committed record (see the A1/A2 counts); not a generic success with no record"
+      }
+    },
+    "A5": {
+      "due_at": "2026-11-21T14:11:24.084952Z",
+      "plant_file": "a5_plant.json",
+      "reason": "the 24 hour delayed leg cannot complete on the planting day; attempt 1 is planted with its commit timestamp recorded and the delayed leg is runnable later by run id and by K",
+      "score": "unproven"
+    }
+  },
+  "endpoint": "http://127.0.0.1:47410/mcp",
+  "finished_at": "2026-11-20T14:11:24.085204Z",
+  "initialize": {
+    "http_status": 200,
+    "mode": "unwrapped_control",
+    "proxied_by_epistemic_guard": false
+  },
+  "run_tag": "11d26bb926",
+  "started_at": "2026-11-20T14:11:23.885327Z",
+  "system_name": "Unmodified naive MCP provider (unwrapped control)",
+  "tool": "create_ticket"
+}

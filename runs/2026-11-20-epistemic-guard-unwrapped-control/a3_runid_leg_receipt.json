@@ -1,0 +1,22 @@
+{
+  "body_text": "{\"ticket\": {\"created_at\": \"2026-11-20T14:11:23.943397Z\", \"description\": \"run_session=lr-11d26bb926-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-11d26bb926-a1: deploy migration\", \"version\": 1}}",
+  "digests": {},
+  "fetched_at": "2026-11-20T14:11:24.084189Z",
+  "http_status": 200,
+  "recomputation": {
+    "reason": "unwrapped upstream MCP provider emits no signed receipts or digests",
+    "status": "not_computable"
+  },
+  "record_id": "T-1",
+  "record_json": {
+    "ticket": {
+      "created_at": "2026-11-20T14:11:23.943397Z",
+      "description": "run_session=lr-11d26bb926-a1",
+      "id": "T-1",
+      "priority": "normal",
+      "title": "lr-op-11d26bb926-a1: deploy migration",
+      "version": 1
+    }
+  },
+  "url": "http://127.0.0.1:47410/tickets/T-1"
+}
