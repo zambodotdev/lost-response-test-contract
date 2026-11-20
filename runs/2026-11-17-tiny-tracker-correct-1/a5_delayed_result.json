@@ -1,0 +1,60 @@
+{
+  "assertion": "A5",
+  "delayed_leg_run_at": "2026-11-18T02:16:00.934532Z",
+  "legs": {
+    "k_only_direct_lookup": {
+      "http_status": 404
+    },
+    "run_id": {
+      "committed_digest": null,
+      "digest_equal": false,
+      "digest_served": null,
+      "http_status": 200,
+      "recomputation": {
+        "informational_note": "the harness's own SHA-256 of the bytes served now; not a digest committed by the system at commit time",
+        "informational_sha256_of_served_body": "0570ab008473e8c2cd55f87178150a0621d25b594672a586247d9e4707d10201",
+        "reason": "the record carries no committed result digest to recompute against; tiny-tracker issues no receipts",
+        "status": "not_computable"
+      }
+    }
+  },
+  "plant": {
+    "K": "lr-op-409891e807-a1",
+    "adapter": "tiny_tracker",
+    "adapter_config": {
+      "args_template": {
+        "description": "lost-response harness, session {SESSION}",
+        "priority": 3,
+        "title": "{K} lost-response probe"
+      },
+      "backend_token_env": "TRACKER_BACKEND_TOKEN",
+      "backend_url": "http://127.0.0.1:47311",
+      "build": {
+        "defects": [],
+        "package": "@mcp-write-safety/tiny-tracker@0.1.0",
+        "start_command": "TRACKER_BACKEND_TOKEN=<fresh local test token> npx -y -p @mcp-write-safety/tiny-tracker@0.1.0 tiny-tracker all --port 47310 --backend-port 47311"
+      },
+      "mcp_url": "http://127.0.0.1:47310/mcp",
+      "mismatch": {
+        "altered_value": 4,
+        "field": "priority"
+      },
+      "protocol_version": "2025-11-25",
+      "tool": "create_ticket"
+    },
+    "assertion": "A5",
+    "committed_digest": null,
+    "delay_hours": 24,
+    "due_at": "2026-11-18T02:13:28.566512Z",
+    "endpoint": "http://127.0.0.1:47310/mcp",
+    "execution_receipt_ids": [
+      "T-1"
+    ],
+    "note": "Delayed leg: run this harness with --delayed-leg on this file at or after due_at. The delay is measured from the original commit time (planted_at approximates it within the run; the exact attempt 1 send time is in a1_attempt1_dropped.json).",
+    "planted_at": "2026-11-17T02:13:28.566509Z",
+    "session_id": "lr-409891e807-a1",
+    "system_name": "tiny-tracker 0.1.0, correct build (local, 127.0.0.1)"
+  },
+  "reason": "scored from the delayed run-id digest equality and the K-only lookup, exactly as observed; see a5_delayed_result.json",
+  "score": "fail"
+}

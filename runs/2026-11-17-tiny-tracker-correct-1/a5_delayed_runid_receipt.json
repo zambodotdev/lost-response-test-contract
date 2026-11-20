@@ -1,0 +1,40 @@
+{
+  "body_text": "{\"ticket\":{\"id\":\"T-1\",\"project\":\"inbox\",\"title\":\"lr-op-409891e807-a1 lost-response probe\",\"status\":\"open\",\"assignee\":null,\"priority\":3,\"description\":\"lost-response harness, session lr-409891e807-a1\",\"details\":{\"component\":null,\"severity\":null},\"labels\":[],\"comments\":[],\"version\":1,\"created_at\":\"2026-11-17T02:13:28.545Z\",\"updated_at\":\"2026-11-17T02:13:28.545Z\"}}",
+  "content_type": "application/json",
+  "digests": {},
+  "fetched_at": "2026-11-18T02:16:00.946109Z",
+  "http_status": 200,
+  "receipt_note": "tiny-tracker issues no signed receipts and its records carry no committed result digest; the ETag is the ticket's integer version, a validator, not a digest",
+  "recomputation": {
+    "informational_note": "the harness's own SHA-256 of the bytes served now; not a digest committed by the system at commit time",
+    "informational_sha256_of_served_body": "0570ab008473e8c2cd55f87178150a0621d25b594672a586247d9e4707d10201",
+    "reason": "the record carries no committed result digest to recompute against; tiny-tracker issues no receipts",
+    "status": "not_computable"
+  },
+  "record_id": "T-1",
+  "record_json": {
+    "ticket": {
+      "assignee": null,
+      "comments": [],
+      "created_at": "2026-11-17T02:13:28.545Z",
+      "description": "lost-response harness, session lr-409891e807-a1",
+      "details": {
+        "component": null,
+        "severity": null
+      },
+      "id": "T-1",
+      "labels": [],
+      "priority": 3,
+      "project": "inbox",
+      "status": "open",
+      "title": "lr-op-409891e807-a1 lost-response probe",
+      "updated_at": "2026-11-17T02:13:28.545Z",
+      "version": 1
+    }
+  },
+  "url": "http://127.0.0.1:47311/tickets/T-1",
+  "validators": {
+    "etag": "\"1\"",
+    "version": 1
+  }
+}

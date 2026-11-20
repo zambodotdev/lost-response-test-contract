@@ -1,0 +1,411 @@
+{
+  "K": "lr-op-409891e807-a1",
+  "assertion": "A5 supplementary: same-key replay with the caller's own arguments (not driver output, not a score)",
+  "attempt1_sent_at": "2026-11-17T02:13:28.537813Z",
+  "attempts": [
+    {
+      "depends_on_caller_convention": true,
+      "digest_returned": null,
+      "note": "finds tickets only because the caller put K at the start of the title; tiny-tracker has no lookup keyed by the idempotency key, and the listing carries no digest",
+      "path": "tools/call list_tickets {title_prefix: K}",
+      "record_ids_returned": [
+        "T-1"
+      ],
+      "response_class": "found"
+    },
+    {
+      "digest_returned": null,
+      "effect_count_after": 1,
+      "effect_count_before": 1,
+      "new_effect": false,
+      "note": "a replay answer carries the ticket id and version of the keyed write and replayed: true; it carries no digest, so digest equality with a committed result digest cannot be shown",
+      "path": "tools/call create_ticket with the same K and the same arguments (the caller's own, not response-derived): the replay path",
+      "record_ids_returned": [
+        "T-1"
+      ],
+      "replayed_flag": true,
+      "response_class": "found"
+    }
+  ],
+  "changed_arguments_retry": {
+    "arguments_sent": {
+      "description": "lost-response harness, session lr-409891e807-a1",
+      "idempotency_key": "lr-op-409891e807-a1",
+      "priority": 4,
+      "title": "lr-op-409891e807-a1 lost-response probe"
+    },
+    "call": {
+      "body": {
+        "id": "6800dfbb2c584c5dacf7be9634f3576f",
+        "jsonrpc": "2.0",
+        "result": {
+          "content": [
+            {
+              "text": "This idempotency_key was already used with different arguments; nothing was written. If you are retrying the same create, send exactly the same arguments as the first call; list your tickets before using a new key, or you may create a duplicate.",
+              "type": "text"
+            },
+            {
+              "text": "{\"written\":false,\"error\":\"idempotency_key_reused\",\"mws\":{\"shape\":\"write-result/0.1\",\"outcome\":\"not_applied\",\"operation\":\"create\",\"repeat\":\"no\",\"code\":\"idempotency_key_reused\",\"argument\":\"/idempotency_key\"}}",
+              "type": "text"
+            }
+          ],
+          "isError": true,
+          "structuredContent": {
+            "error": "idempotency_key_reused",
+            "mws": {
+              "argument": "/idempotency_key",
+              "code": "idempotency_key_reused",
+              "operation": "create",
+              "outcome": "not_applied",
+              "repeat": "no",
+              "shape": "write-result/0.1"
+            },
+            "written": false
+          }
+        }
+      },
+      "dropped": false,
+      "mws_outcome": "not_applied",
+      "receipt_ids": [],
+      "replayed": null,
+      "response_class": "tool_error:idempotency_key_reused",
+      "transport": {
+        "content_type": "text/event-stream",
+        "elapsed_ms": 4,
+        "http_status": 200,
+        "jsonrpc_id": "6800dfbb2c584c5dacf7be9634f3576f",
+        "mcp_session_id_header": null,
+        "received_at": "2026-11-18T02:16:06.087426Z",
+        "response_bytes": 880,
+        "sent_at": "2026-11-18T02:16:06.083273Z"
+      }
+    },
+    "count_evidence_after": {
+      "K": "lr-op-409891e807-a1",
+      "at": "2026-11-18T02:16:06.088561Z",
+      "attributed_records": [
+        {
+          "counted_as_execution": true,
+          "created_at": "2026-11-17T02:13:28.545Z",
+          "description_names_session": true,
+          "priority": 3,
+          "ticket_id": "T-1",
+          "title": "lr-op-409891e807-a1 lost-response probe",
+          "title_starts_with_K": true
+        }
+      ],
+      "execution_record_ids": [
+        "T-1"
+      ],
+      "external_effect_count": 1,
+      "label": "a5_supplementary_after_changed_retry",
+      "listing_http_status": 200,
+      "method": "GET <backend>/tickets?title_prefix=<K> on the tiny-tracker backend REST API, read directly (not through MCP); each listed ticket whose title starts with K and whose description names the session identity is one committed execution of create_ticket for the operation",
+      "refusal_records": [],
+      "refusal_records_note": "tiny-tracker writes no record for a refused call",
+      "session_id": "lr-409891e807-a1"
+    },
+    "count_evidence_before": {
+      "K": "lr-op-409891e807-a1",
+      "at": "2026-11-18T02:16:06.083242Z",
+      "attributed_records": [
+        {
+          "counted_as_execution": true,
+          "created_at": "2026-11-17T02:13:28.545Z",
+          "description_names_session": true,
+          "priority": 3,
+          "ticket_id": "T-1",
+          "title": "lr-op-409891e807-a1 lost-response probe",
+          "title_starts_with_K": true
+        }
+      ],
+      "execution_record_ids": [
+        "T-1"
+      ],
+      "external_effect_count": 1,
+      "label": "a5_supplementary_before_changed_retry",
+      "listing_http_status": 200,
+      "method": "GET <backend>/tickets?title_prefix=<K> on the tiny-tracker backend REST API, read directly (not through MCP); each listed ticket whose title starts with K and whose description names the session identity is one committed execution of create_ticket for the operation",
+      "refusal_records": [],
+      "refusal_records_note": "tiny-tracker writes no record for a refused call",
+      "session_id": "lr-409891e807-a1"
+    },
+    "effect_count_after": 1,
+    "effect_count_before": 1,
+    "execution_record_ids_after": [
+      "T-1"
+    ],
+    "execution_record_ids_before": [
+      "T-1"
+    ],
+    "listings": {
+      "backend_a5_supplementary_after_changed_retry_listing.json": {
+        "body_json": {
+          "tickets": [
+            {
+              "assignee": null,
+              "comments": [],
+              "created_at": "2026-11-17T02:13:28.545Z",
+              "description": "lost-response harness, session lr-409891e807-a1",
+              "details": {
+                "component": null,
+                "severity": null
+              },
+              "id": "T-1",
+              "labels": [],
+              "priority": 3,
+              "project": "inbox",
+              "status": "open",
+              "title": "lr-op-409891e807-a1 lost-response probe",
+              "updated_at": "2026-11-17T02:13:28.545Z",
+              "version": 1
+            }
+          ]
+        },
+        "body_text": "{\"tickets\":[{\"id\":\"T-1\",\"project\":\"inbox\",\"title\":\"lr-op-409891e807-a1 lost-response probe\",\"status\":\"open\",\"assignee\":null,\"priority\":3,\"description\":\"lost-response harness, session lr-409891e807-a1\",\"details\":{\"component\":null,\"severity\":null},\"labels\":[],\"comments\":[],\"version\":1,\"created_at\":\"2026-11-17T02:13:28.545Z\",\"updated_at\":\"2026-11-17T02:13:28.545Z\"}]}",
+        "content_type": "application/json",
+        "elapsed_ms": 1,
+        "etag": null,
+        "fetched_at": "2026-11-18T02:16:06.088534Z",
+        "http_status": 200,
+        "method": "GET",
+        "url": "http://127.0.0.1:47311/tickets?title_prefix=lr-op-409891e807-a1"
+      },
+      "backend_a5_supplementary_before_changed_retry_listing.json": {
+        "body_json": {
+          "tickets": [
+            {
+              "assignee": null,
+              "comments": [],
+              "created_at": "2026-11-17T02:13:28.545Z",
+              "description": "lost-response harness, session lr-409891e807-a1",
+              "details": {
+                "component": null,
+                "severity": null
+              },
+              "id": "T-1",
+              "labels": [],
+              "priority": 3,
+              "project": "inbox",
+              "status": "open",
+              "title": "lr-op-409891e807-a1 lost-response probe",
+              "updated_at": "2026-11-17T02:13:28.545Z",
+              "version": 1
+            }
+          ]
+        },
+        "body_text": "{\"tickets\":[{\"id\":\"T-1\",\"project\":\"inbox\",\"title\":\"lr-op-409891e807-a1 lost-response probe\",\"status\":\"open\",\"assignee\":null,\"priority\":3,\"description\":\"lost-response harness, session lr-409891e807-a1\",\"details\":{\"component\":null,\"severity\":null},\"labels\":[],\"comments\":[],\"version\":1,\"created_at\":\"2026-11-17T02:13:28.545Z\",\"updated_at\":\"2026-11-17T02:13:28.545Z\"}]}",
+        "content_type": "application/json",
+        "elapsed_ms": 1,
+        "etag": null,
+        "fetched_at": "2026-11-18T02:16:06.083219Z",
+        "http_status": 200,
+        "method": "GET",
+        "url": "http://127.0.0.1:47311/tickets?title_prefix=lr-op-409891e807-a1"
+      }
+    },
+    "new_effect": false,
+    "response_class": "tool_error:idempotency_key_reused"
+  },
+  "committed_record_ids_in_plant": [
+    "T-1"
+  ],
+  "due_at": "2026-11-18T02:13:28.566512Z",
+  "elapsed_hours_since_attempt1_sent": 24.044,
+  "files": {
+    "a3_konly_list_tickets.json": {
+      "body": {
+        "id": "d497f9c9cacc49d789930966f2eb509f",
+        "jsonrpc": "2.0",
+        "result": {
+          "content": [
+            {
+              "text": "T-1 [inbox] open \"lr-op-409891e807-a1 lost-response probe\"; current expected_version: 1",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "tickets": [
+              {
+                "assignee": null,
+                "id": "T-1",
+                "priority": 3,
+                "project": "inbox",
+                "status": "open",
+                "title": "lr-op-409891e807-a1 lost-response probe",
+                "version": 1
+              }
+            ]
+          }
+        }
+      },
+      "request": {
+        "id": "d497f9c9cacc49d789930966f2eb509f",
+        "jsonrpc": "2.0",
+        "method": "tools/call",
+        "params": {
+          "arguments": {
+            "title_prefix": "lr-op-409891e807-a1"
+          },
+          "name": "list_tickets"
+        }
+      },
+      "transport": {
+        "content_type": "text/event-stream",
+        "elapsed_ms": 17,
+        "http_status": 200,
+        "jsonrpc_id": "d497f9c9cacc49d789930966f2eb509f",
+        "mcp_session_id_header": null,
+        "received_at": "2026-11-18T02:16:06.074194Z",
+        "response_bytes": 390,
+        "sent_at": "2026-11-18T02:16:06.056890Z"
+      }
+    },
+    "a3_konly_replay_create_ticket.json": {
+      "arguments_sent": {
+        "description": "lost-response harness, session lr-409891e807-a1",
+        "idempotency_key": "lr-op-409891e807-a1",
+        "priority": 3,
+        "title": "lr-op-409891e807-a1 lost-response probe"
+      },
+      "call": {
+        "body": {
+          "id": "b7b63fc2eac94b0c9d4b8e3205bd8e01",
+          "jsonrpc": "2.0",
+          "result": {
+            "content": [
+              {
+                "text": "Ticket T-1 was already created by an earlier call with this idempotency_key; nothing new was written (replay).",
+                "type": "text"
+              },
+              {
+                "text": "{\"id\":\"T-1\",\"version\":1,\"changed\":[],\"replayed\":true,\"project\":\"inbox\",\"mws\":{\"shape\":\"write-result/0.1\",\"outcome\":\"applied\",\"operation\":\"create\",\"repeat\":\"same_key\",\"object\":{\"type\":\"ticket\",\"scope\":\"inbox\",\"id\":\"T-1\",\"version\":1},\"changed\":[\"/description\",\"/priority\",\"/title\"],\"replayed\":true}}",
+                "type": "text"
+              }
+            ],
+            "structuredContent": {
+              "changed": [],
+              "id": "T-1",
+              "mws": {
+                "changed": [
+                  "/description",
+                  "/priority",
+                  "/title"
+                ],
+                "object": {
+                  "id": "T-1",
+                  "scope": "inbox",
+                  "type": "ticket",
+                  "version": 1
+                },
+                "operation": "create",
+                "outcome": "applied",
+                "repeat": "same_key",
+                "replayed": true,
+                "shape": "write-result/0.1"
+              },
+              "project": "inbox",
+              "replayed": true,
+              "version": 1
+            }
+          }
+        },
+        "dropped": false,
+        "mws_outcome": "applied",
+        "receipt_ids": [
+          "T-1"
+        ],
+        "replayed": true,
+        "response_class": "success",
+        "transport": {
+          "content_type": "text/event-stream",
+          "elapsed_ms": 5,
+          "http_status": 200,
+          "jsonrpc_id": "b7b63fc2eac94b0c9d4b8e3205bd8e01",
+          "mcp_session_id_header": null,
+          "received_at": "2026-11-18T02:16:06.080830Z",
+          "response_bytes": 938,
+          "sent_at": "2026-11-18T02:16:06.075807Z"
+        }
+      },
+      "count_after": {
+        "execution_record_ids": [
+          "T-1"
+        ],
+        "external_effect_count": 1,
+        "listing": {
+          "body_json": {
+            "tickets": [
+              {
+                "assignee": null,
+                "comments": [],
+                "created_at": "2026-11-17T02:13:28.545Z",
+                "description": "lost-response harness, session lr-409891e807-a1",
+                "details": {
+                  "component": null,
+                  "severity": null
+                },
+                "id": "T-1",
+                "labels": [],
+                "priority": 3,
+                "project": "inbox",
+                "status": "open",
+                "title": "lr-op-409891e807-a1 lost-response probe",
+                "updated_at": "2026-11-17T02:13:28.545Z",
+                "version": 1
+              }
+            ]
+          },
+          "body_text": "{\"tickets\":[{\"id\":\"T-1\",\"project\":\"inbox\",\"title\":\"lr-op-409891e807-a1 lost-response probe\",\"status\":\"open\",\"assignee\":null,\"priority\":3,\"description\":\"lost-response harness, session lr-409891e807-a1\",\"details\":{\"component\":null,\"severity\":null},\"labels\":[],\"comments\":[],\"version\":1,\"created_at\":\"2026-11-17T02:13:28.545Z\",\"updated_at\":\"2026-11-17T02:13:28.545Z\"}]}",
+          "content_type": "application/json",
+          "elapsed_ms": 1,
+          "etag": null,
+          "fetched_at": "2026-11-18T02:16:06.082019Z",
+          "http_status": 200,
+          "method": "GET",
+          "url": "http://127.0.0.1:47311/tickets?title_prefix=lr-op-409891e807-a1"
+        }
+      },
+      "count_before": {
+        "execution_record_ids": [
+          "T-1"
+        ],
+        "external_effect_count": 1,
+        "listing": {
+          "body_json": {
+            "tickets": [
+              {
+                "assignee": null,
+                "comments": [],
+                "created_at": "2026-11-17T02:13:28.545Z",
+                "description": "lost-response harness, session lr-409891e807-a1",
+                "details": {
+                  "component": null,
+                  "severity": null
+                },
+                "id": "T-1",
+                "labels": [],
+                "priority": 3,
+                "project": "inbox",
+                "status": "open",
+                "title": "lr-op-409891e807-a1 lost-response probe",
+                "updated_at": "2026-11-17T02:13:28.545Z",
+                "version": 1
+              }
+            ]
+          },
+          "body_text": "{\"tickets\":[{\"id\":\"T-1\",\"project\":\"inbox\",\"title\":\"lr-op-409891e807-a1 lost-response probe\",\"status\":\"open\",\"assignee\":null,\"priority\":3,\"description\":\"lost-response harness, session lr-409891e807-a1\",\"details\":{\"component\":null,\"severity\":null},\"labels\":[],\"comments\":[],\"version\":1,\"created_at\":\"2026-11-17T02:13:28.545Z\",\"updated_at\":\"2026-11-17T02:13:28.545Z\"}]}",
+          "content_type": "application/json",
+          "elapsed_ms": 2,
+          "etag": null,
+          "fetched_at": "2026-11-18T02:16:06.075771Z",
+          "http_status": 200,
+          "method": "GET",
+          "url": "http://127.0.0.1:47311/tickets?title_prefix=lr-op-409891e807-a1"
+        }
+      }
+    }
+  },
+  "run_at": "2026-11-18T02:16:06.004280Z",
+  "written_by": "a5-supplementary.py"
+}
