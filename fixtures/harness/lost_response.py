@@ -308,6 +308,918 @@ def results_snippet(summary):
     return "\n".join(lines) + "\n"
 
 
+# -- A5 scoring (pure; no I/O, no adapter, no network) ----------------
+#
+# CONTRACT.md A5 has two distinct pass conditions, scored separately:
+#
+#   recovery         After the agreed delay, recovery using only the
+#                    operation key K still returns the original
+#                    committed outcome, with a digest equal to the
+#                    independently recorded committed digest.
+#   retry_protection During / after the delay the operation identity
+#                    remains protected against fresh execution: both a
+#                    delayed identical retry and a delayed retry with
+#                    changed arguments produce zero new effects.
+#
+# score_a5() takes only recorded observations (plain dicts, as written
+# in a run directory or assembled by delayed_leg() from the records it
+# already fetched) and returns both verdicts plus the overall A5
+# verdict. It performs no network calls and dispatches nothing.
+#
+# Observation shape (every field optional; missing fields make the
+# affected check unproven, never pass):
+#
+#   {
+#     "committed_digest": <digest recorded independently at plant
+#                          time>,            # or under "plant"
+#     "due_at": <ISO time the agreed delay elapses>,
+#                                           # or plant["due_at"], or
+#                                           # planted_at + delay_hours
+#     "K": ..., "session_id": ...,          # scoped operation, or
+#                                           # under "plant"
+#     "original_arguments": {...},          # the original call's
+#                                           # arguments_sent, where
+#                                           # recorded at plant time
+#     "observed_at": <fallback timestamp for observations that do
+#                     not carry their own>,
+#     "k_only": {                           # operation-key-only lookup
+#         "http_status": int,
+#         "digests": {...} and/or "recovered_digest" / "digest_served",
+#         "fetched_at" / "at" / "observed_at": <ISO time>,
+#         # ... or "attempts": [attempt, ...] in recover_by_key()
+#         # shape, each attempt carrying its own digests if it
+#         # returned a record
+#     },
+#     "run_id": {same shape as "k_only"},   # DIAGNOSTIC ONLY: kept as
+#                                           # evidence, never gates the
+#                                           # recovery verdict
+#     "protection": {                       # scope is read from the
+#                                           # records themselves —
+#                                           # each count's and each
+#                                           # retry's own session_id
+#                                           # and operation key; a
+#                                           # wrapper establishes
+#                                           # nothing
+#         "effect_count_before": int,       # or "counts_before":
+#                                           # a count_effects()
+#                                           # evidence dict carrying
+#                                           # external_effect_count
+#         "effect_count_after_identical": int,   # optional intermediate
+#         "effect_count_after": int,        # final count, after both
+#                                           # retries ("effect_count_
+#                                           # final" / "counts_after"
+#                                           # / "counts_final" too)
+#         "identical_retry":  {recorded retry, with "at"},
+#         "mismatched_retry": {recorded retry, with "at"},
+#     },
+#   }
+#
+# Verdict rules (per check):
+#   pass     Sufficient, comparable evidence, observed at or after
+#            due_at, showing the pass condition.
+#   fail     An observed violation: a K-only digest that differs from
+#            the committed digest, an explicit K-only not-found, or a
+#            recorded effect-count rise bracketing the delayed
+#            retries. A violation fails even if its timestamp is
+#            early: the violation was still observed, and protection
+#            is owed during the delay period too. But an increase is
+#            only evidence against the retries once attribution and
+#            bracketing are validated — the planted original receipt
+#            counted, the counts bracketing both attempts on their
+#            own timestamps; without those, the result is unproven,
+#            not fail.
+#   unproven Missing, early, or incomparable evidence: no committed
+#            digest to compare against, an HTTP 200 with no digest
+#            from the K path (200 alone is not recovery), a missing
+#            retry record or count, counts recorded for a different
+#            scoped operation, a decreasing count, or any otherwise
+#            passing-looking evidence timestamped before due_at.
+#            Timestamps are read from the observations themselves,
+#            never from when the scorer happened to run: re-running
+#            the delayed leg after due_at does not refresh stale
+#            retry or count files. Retry protection additionally
+#            requires the counts to bracket both attempts (before
+#            count at or before both retries, final count at or
+#            after both), both retries to be distinct attempts (a
+#            changed-argument record must carry different arguments
+#            from the identical record), and neither retry to have
+#            been blocked before reaching the retry logic (for
+#            example a payment_required refusal at the metering
+#            layer, which never exercises the binding check — the
+#            A2 rule). When both counts carry the receipt identifier
+#            lists they were counted from, a new receipt in the
+#            final count is a new effect even at an unchanged
+#            number, a lost receipt makes the counts incomparable,
+#            and the planted original receipt must be present in
+#            the before count for attribution; the changed-argument
+#            record must differ from the identical record in
+#            exactly one field — the configured mismatch field,
+#            when the plant's configuration names one. Scope is
+#            matched against the plant on the retry records too,
+#            not only the counts; the identical retry must carry
+#            the original arguments where those are recorded (an
+#            explicit record, or the plant's configured argument
+#            template with K/session substituted); the changed
+#            value must be the configured replacement value; and
+#            labels alone never evidence the argument check — a
+#            retry record without arguments_sent leaves it
+#            unproven. Recovery credits only a successful K-only
+#            response (HTTP 200, or a found recovery attempt), and
+#            the digest, timestamp and recomputation verdict are
+#            all read from that same response. When the deadline
+#            cannot be established (due_at missing and not
+#            derivable from planted_at + delay_hours), neither
+#            check can pass: the delayed result is unproven. A K-only record whose served digest matches
+#            but whose recomputation from the returned record is
+#            mismatched fails recovery: the digest was served, not
+#            verified.
+#
+# Overall A5 is pass only when both checks pass, fail when either
+# check fails, and unproven otherwise.
+
+
+def _parse_ts(value):
+    """Parse an ISO-8601 timestamp to an aware datetime, or None."""
+    if isinstance(value, datetime):
+        return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip().replace("Z", "+00:00")
+    try:
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def _norm_digest(value):
+    return value.strip().lower() if isinstance(value, str) and value.strip() else None
+
+
+def _digest_from_observation(obs):
+    """Result digest carried by one recorded lookup, or None."""
+    if not isinstance(obs, dict):
+        return None
+    for field in ("recovered_digest", "digest_served", "result_digest"):
+        digest = _norm_digest(obs.get(field))
+        if digest:
+            return digest
+    digest = result_digest_of(digests_of(obs))
+    if digest:
+        return _norm_digest(digest)
+    # An attempts list (recover_by_key shape): the first digest any
+    # attempt actually returned.
+    for attempt in obs.get("attempts") or []:
+        digest = _digest_from_observation(attempt)
+        if digest:
+            return digest
+    return None
+
+
+def _recomputation_mismatched(obs, recovered_digest=None):
+    """True when the record that served `recovered_digest` carries a
+    recomputation verdict of mismatched (the adapter recomputed the
+    digest from the record's own bytes and it did not match)."""
+    if not isinstance(obs, dict):
+        return False
+    recomp = obs.get("recomputation") or {}
+    if isinstance(recomp, dict) and recomp.get("status") == "mismatched":
+        return True
+    for attempt in obs.get("attempts") or []:
+        if not isinstance(attempt, dict):
+            continue
+        if recovered_digest and _digest_from_observation(attempt) != recovered_digest:
+            continue
+        recomp = attempt.get("recomputation") or {}
+        if isinstance(recomp, dict) and recomp.get("status") == "mismatched":
+            return True
+    return False
+
+
+def _obs_time(obs, fallback=None):
+    if isinstance(obs, dict):
+        for field in ("fetched_at", "at", "observed_at", "run_at"):
+            parsed = _parse_ts(obs.get(field))
+            if parsed:
+                return parsed
+        # Older recorded retry files carry no top-level timestamp;
+        # their own transport record does (the response-received
+        # time is when the attempt completed).
+        call = obs.get("call") if isinstance(obs.get("call"), dict) else {}
+        for holder in (call.get("transport"), obs.get("transport")):
+            if isinstance(holder, dict):
+                for field in ("received_at", "sent_at"):
+                    parsed = _parse_ts(holder.get(field))
+                    if parsed:
+                        return parsed
+    return _parse_ts(fallback)
+
+
+def _count_value(block, *names):
+    """(count, evidence dict or None) from an int or a count_effects
+    evidence dict under any of `names` in the protection block."""
+    for name in names:
+        if name not in block:
+            continue
+        value = block[name]
+        if isinstance(value, bool):
+            continue
+        if isinstance(value, int):
+            return value, None
+        if isinstance(value, dict) and isinstance(
+                value.get("external_effect_count"), int):
+            return value["external_effect_count"], value
+    return None, None
+
+
+def _scope_mismatch(evidence_dicts, plant_scope):
+    """Name the first recorded scope that disagrees with the plant's
+    scoped operation (or with a sibling count), else None."""
+    seen = {}
+    for evidence in evidence_dicts:
+        if not isinstance(evidence, dict):
+            continue
+        for field in ("session_id", "K", "operation_key"):
+            value = evidence.get(field)
+            if value is None:
+                continue
+            expected = plant_scope.get(field)
+            if expected is not None and value != expected:
+                return f"{field} {value!r} does not match the planted {expected!r}"
+            if field in seen and seen[field] != value:
+                return f"{field} {value!r} disagrees with the other recorded count {seen[field]!r}"
+            seen[field] = value
+    return None
+
+
+def _retry_scope_problem(rec, name, plant_scope):
+    """Why a retry record's own scope or argument shape is not
+    established, or None. The record itself must carry the plant's
+    session and operation key — a missing field establishes
+    nothing — and scope fields embedded in its arguments, where
+    present, must agree."""
+    plant_session = plant_scope.get("session_id")
+    plant_k = plant_scope.get("K") or plant_scope.get("operation_key")
+    if plant_session is not None:
+        if rec.get("session_id") is None:
+            return (f"the {name} retry record carries no session_id "
+                    f"of its own, so its scope is not established by "
+                    f"the record itself")
+        if rec["session_id"] != plant_session:
+            return (f"the {name} retry record's session_id "
+                    f"{rec['session_id']!r} does not match the "
+                    f"planted {plant_session!r}")
+    if plant_k is not None:
+        rec_k = rec.get("K") or rec.get("operation_key")
+        if rec_k is None:
+            return (f"the {name} retry record carries no operation "
+                    f"key of its own, so its scope is not established "
+                    f"by the record itself")
+        if rec_k != plant_k:
+            return (f"the {name} retry record's operation key "
+                    f"{rec_k!r} does not match the planted {plant_k!r}")
+    args = rec.get("arguments_sent")
+    if args is not None:
+        if not isinstance(args, dict):
+            return (f"the {name} retry record's arguments_sent is "
+                    f"not a record of arguments, so its argument "
+                    f"shape cannot be verified")
+        if (plant_session is not None
+                and args.get("_session_id") is not None
+                and args["_session_id"] != plant_session):
+            return (f"the {name} retry's arguments carry "
+                    f"_session_id {args['_session_id']!r}, not the "
+                    f"planted session {plant_session!r}")
+        if plant_k is not None:
+            for field, value in (("job_id", args.get("job_id")),
+                                 ("inputs.operation",
+                                  (args.get("inputs") or {}).get("operation")
+                                  if isinstance(args.get("inputs"), dict)
+                                  else None)):
+                if value is not None and value != plant_k:
+                    return (f"the {name} retry's arguments carry "
+                            f"{field} {value!r}, not the planted "
+                            f"operation key {plant_k!r}")
+    return None
+
+
+def _count_attribution_problem(name, ev, plant_scope):
+    """Why a count's attribution to the planted operation is not
+    established by the count record itself, or None. Counts are
+    linked by their own recorded session (and, at the receipt gate
+    below, the original receipt IDs) — never by a wrapper."""
+    plant_session = plant_scope.get("session_id")
+    if ev is None:
+        return (f"the {name} count is a bare number with no recorded "
+                f"session or receipt IDs, so its attribution to this "
+                f"operation is not established")
+    if plant_session is not None:
+        if ev.get("session_id") is None:
+            return (f"the {name} count carries no session_id of its "
+                    f"own, so its attribution to this operation is "
+                    f"not established by the record itself")
+        if ev["session_id"] != plant_session:
+            return (f"the {name} count's session_id "
+                    f"{ev['session_id']!r} does not match the "
+                    f"planted {plant_session!r}")
+    return None
+
+
+def _score_a5_recovery(obs, committed_digest, due_at):
+    k_only = obs.get("k_only") if isinstance(obs.get("k_only"), dict) else None
+    run_id = obs.get("run_id") if isinstance(obs.get("run_id"), dict) else None
+    run_id_digest = _digest_from_observation(run_id) if run_id else None
+    diagnostic = {
+        "run_id_http_status": run_id.get("http_status") if run_id else None,
+        "run_id_digest_served": run_id_digest,
+        "run_id_digest_equal": bool(
+            run_id_digest and committed_digest
+            and run_id_digest == committed_digest),
+        "note": "diagnostic evidence only; the run-id lookup does not "
+                "gate the recovery verdict",
+    }
+    check = {"committed_digest": committed_digest,
+             "recovered_digest": None,
+             "k_only_http_status": k_only.get("http_status") if k_only else None,
+             "run_id": diagnostic}
+    if k_only is None:
+        check.update(score="unproven", reason="no operation-key-only "
+                       "lookup was recorded, so delayed recovery is "
+                       "not evidenced")
+        return check
+    recovered, source = _recovery_source(k_only)
+    check["recovered_digest"] = recovered
+    http_status = k_only.get("http_status")
+    attempts = k_only.get("attempts") or []
+    explicit_not_found = http_status == 404 or any(
+        a.get("http_status") == 404
+        or a.get("response_class") in ("not_found",)
+        for a in attempts if isinstance(a, dict))
+    if not committed_digest:
+        check.update(score="unproven", reason="no committed digest was "
+                       "recorded independently at plant time, so there "
+                       "is nothing to compare the recovered outcome "
+                       "against")
+        return check
+    if not recovered:
+        if explicit_not_found:
+            check.update(score="fail", reason="K-only lookup returned "
+                           "not found after the agreed delay; a lookup "
+                           "miss inside the window is a fail, not a "
+                           "fresh operation (CONTRACT.md A5)")
+        elif http_status == 200:
+            check.update(score="unproven", reason="K-only lookup "
+                           "returned HTTP 200 but carried no digest, so "
+                           "there is no evidence it returned the "
+                           "original committed outcome; HTTP 200 alone "
+                           "is insufficient")
+        else:
+            check.update(score="unproven", reason="K-only lookup "
+                           "carried no recovered digest, so recovery "
+                           "cannot be verified against the committed "
+                           "digest")
+        return check
+    # A digest was served by one specific response (`source`). That
+    # response must have succeeded BEFORE its digest is compared or
+    # credited at all: a digest carried by an error response is not
+    # evidence, whether it matches or not. The one exception is a
+    # genuine not-found, which stays its own failure case.
+    # Everything credited to a recovery — success, timestamp,
+    # recomputation verdict — is read from that same response, never
+    # borrowed from a wrapper record or a sibling attempt.
+    if not _response_succeeded(source):
+        if _response_not_found(source):
+            check.update(score="fail", reason="K-only lookup returned "
+                           "not found after the agreed delay; a lookup "
+                           "miss inside the window is a fail, not a "
+                           "fresh operation (CONTRACT.md A5)")
+        else:
+            check.update(score="unproven", reason=f"K-only lookup "
+                           f"served a digest on a response that was "
+                           f"not a successful lookup (HTTP status "
+                           f"{source.get('http_status')!r}, response "
+                           f"class {source.get('response_class')!r}), "
+                           f"so that digest is not evidence of "
+                           f"recovery, whether or not it matches the "
+                           f"committed digest")
+        return check
+    if recovered != committed_digest:
+        check.update(score="fail", reason=f"K-only lookup returned a "
+                       f"digest ({recovered}) that does not match the "
+                       f"independently recorded committed digest "
+                       f"({committed_digest}); the recovered outcome is "
+                       f"not the original committed outcome")
+        return check
+    # If recomputing the digest from the returned record mismatches,
+    # the record does not verify: recovery fails, it does not pass
+    # on the served value alone.
+    if _recomputation_mismatched(source, recovered):
+        check.update(score="fail", reason="K-only lookup served the "
+                       "committed digest, but recomputing the digest "
+                       "from the returned record gives a mismatch, so "
+                       "the recovered record does not verify as the "
+                       "original committed outcome")
+        return check
+    # The source response's own timestamp decides timeliness; the
+    # time the scorer (or a delayed-leg re-run) happened to execute
+    # is never substituted for it. And without an established
+    # deadline there is no delayed leg to evidence at all.
+    observed_at = _obs_time(source)
+    if due_at is None:
+        check.update(score="unproven", reason="K-only lookup returned "
+                       "the committed digest, but the agreed delay "
+                       "deadline (due_at) is missing and cannot be "
+                       "derived from the plant, so the delayed result "
+                       "cannot be established")
+    elif observed_at is None:
+        check.update(score="unproven", reason="K-only lookup returned "
+                       "the committed digest, but the response that "
+                       "served it carries no timestamp, so it cannot "
+                       "be shown to come from at or after the agreed "
+                       "delay")
+    elif observed_at < due_at:
+        check.update(score="unproven", reason="K-only lookup returned "
+                       "the committed digest, but it was observed "
+                       "before the agreed delay elapsed (early "
+                       "observation), so it is not evidence from the "
+                       "delayed leg")
+    else:
+        check.update(score="pass", reason="K-only lookup returned the "
+                       "original outcome with a digest equal to the "
+                       "independently recorded committed digest")
+    return check
+
+
+def _recovery_source(k_only):
+    """(digest, response) for a K-only lookup observation: the
+    response that actually served the recovered digest — the record
+    itself when it carries digests, else the first attempt that
+    returned one. (None, k_only) when no response served a digest."""
+    digest = None
+    for field in ("recovered_digest", "digest_served", "result_digest"):
+        digest = _norm_digest(k_only.get(field))
+        if digest:
+            return digest, k_only
+    digest = result_digest_of(digests_of(k_only))
+    if digest:
+        return _norm_digest(digest), k_only
+    for attempt in k_only.get("attempts") or []:
+        if not isinstance(attempt, dict):
+            continue
+        digest = _digest_from_observation(attempt)
+        if digest:
+            return digest, attempt
+    return None, k_only
+
+
+def _response_succeeded(response):
+    """A recorded lookup response succeeded: HTTP 200, or a recovery
+    attempt whose response class is found."""
+    if response.get("http_status") is not None:
+        return response.get("http_status") == 200
+    return response.get("response_class") == "found"
+
+
+def _response_not_found(response):
+    """A recorded lookup response is a genuine not-found."""
+    return (response.get("http_status") == 404
+            or response.get("response_class") == "not_found")
+
+
+def _score_a5_protection(obs, due_at, plant_scope, plant_receipt_ids=None,
+                         mismatch_field=None, mismatch_altered_value=None,
+                         original_arguments=None):
+    prot = obs.get("protection") if isinstance(obs.get("protection"), dict) else None
+    check = {"effect_count_before": None, "effect_count_after_identical": None,
+             "effect_count_final": None}
+    if prot is None:
+        check.update(score="unproven", reason="no recorded before/after "
+                       "effect counts or delayed retry records, so "
+                       "retry protection is not evidenced")
+        return check
+    before, before_ev = _count_value(prot, "effect_count_before", "counts_before")
+    after_ident, after_ident_ev = _count_value(
+        prot, "effect_count_after_identical", "counts_after_identical")
+    final, final_ev = _count_value(
+        prot, "effect_count_after", "effect_count_final",
+        "counts_after", "counts_final")
+    check.update(effect_count_before=before,
+                 effect_count_after_identical=after_ident,
+                 effect_count_final=final)
+    identical = prot.get("identical_retry")
+    mismatched = prot.get("mismatched_retry")
+    # Scope is checked on every piece of evidence the verdict rests
+    # on — the counts AND both retry records. A retry recorded under
+    # a different K or session is not a retry of this operation.
+    evidence = [e for e in (before_ev, after_ident_ev, final_ev) if e]
+    scoped_records = [prot, *evidence] + [
+        rec for rec in (identical, mismatched) if isinstance(rec, dict)]
+    mismatch = _scope_mismatch(scoped_records, plant_scope)
+    if mismatch:
+        check.update(score="unproven", reason=f"protection evidence "
+                       f"is incomparable: {mismatch}; counts and "
+                       f"retries must be for the same scoped operation "
+                       f"as the plant")
+        return check
+    if before is None or final is None:
+        check.update(score="unproven", reason="recorded effect counts "
+                       "do not include both a before count and a final "
+                       "count bracketing the delayed retries, so zero "
+                       "new effects cannot be verified")
+        return check
+    if not isinstance(identical, dict) or not isinstance(mismatched, dict):
+        missing = [name for name, rec in (("identical", identical),
+                                          ("changed-argument", mismatched))
+                   if not isinstance(rec, dict)]
+        check.update(score="unproven", reason=f"no {' or '.join(missing)} "
+                       f"delayed retry was recorded, so it cannot be "
+                       f"shown that both retries were attempted and "
+                       f"produced zero new effects")
+        return check
+    # Scope and attribution must be established by the records
+    # themselves before anything is scored — a pass, or a rise
+    # attributed to the retries. _scope_mismatch above only catches
+    # fields that are present and disagreeing; a record that omits
+    # its scope establishes nothing, and scope stamped on a wrapper
+    # by the delayed leg does not transfer to the records under it.
+    for name, rec in (("identical", identical),
+                      ("changed-argument", mismatched)):
+        problem = _retry_scope_problem(rec, name, plant_scope)
+        if problem:
+            check.update(score="unproven", reason=problem)
+            return check
+    for name, value, ev in (("before", before, before_ev),
+                            ("after-identical", after_ident, after_ident_ev),
+                            ("final", final, final_ev)):
+        if value is None:
+            continue
+        problem = _count_attribution_problem(name, ev, plant_scope)
+        if problem:
+            check.update(score="unproven", reason=problem)
+            return check
+    stages = [(name, value) for name, value in
+              (("before", before), ("after_identical", after_ident),
+               ("final", final)) if value is not None]
+    for (prev_name, prev), (name, value) in zip(stages, stages[1:]):
+        if value < prev:
+            check.update(score="unproven", reason=f"effect count fell "
+                           f"from {prev} ({prev_name}) to {value} "
+                           f"({name}); a cumulative count for one "
+                           f"scoped operation cannot decrease, so the "
+                           f"counts are incomparable")
+            return check
+    # Attribution and bracketing are validated BEFORE any increase
+    # is treated as evidence against these retries: the counts must
+    # actually count this operation (the planted original receipt
+    # present, when the count carries receipt IDs — no K field is
+    # assumed or inserted), and they must bracket both attempts in
+    # time, read from the observations' own timestamps only.
+    before_ids = execution_ids_of(before_ev) if before_ev else None
+    final_ids = execution_ids_of(final_ev) if final_ev else None
+    if plant_receipt_ids and before_ids is None:
+        check.update(score="unproven", reason=f"the before count "
+                       f"carries no execution receipt IDs, so it "
+                       f"cannot be linked to the planted original "
+                       f"execution receipt(s) {plant_receipt_ids} and "
+                       f"its attribution to this operation is not "
+                       f"established")
+        return check
+    if plant_receipt_ids and before_ids is not None:
+        missing = [r for r in plant_receipt_ids if r not in before_ids]
+        if missing:
+            check.update(score="unproven", reason=f"the planted "
+                           f"original execution receipt(s) {missing} "
+                           f"are not present in the before count, so "
+                           f"the count's attribution to this operation "
+                           f"is not established by the recorded "
+                           f"evidence, and no count change can be "
+                           f"attributed to the delayed retries")
+            return check
+    if before_ids is not None and final_ids is not None:
+        # A receipt that vanished with nothing new in its place
+        # makes the counts incomparable; a receipt that was
+        # REPLACED is handled by the new-receipt fail below, which
+        # is the observed violation.
+        lost_ids = [r for r in before_ids if r not in final_ids]
+        new_ids = [r for r in final_ids if r not in before_ids]
+        if lost_ids and not new_ids:
+            check.update(score="unproven", reason=f"execution "
+                           f"receipt(s) {lost_ids} are in the before "
+                           f"count but not the final count; a "
+                           f"cumulative count for one scoped operation "
+                           f"cannot lose receipts, so the counts are "
+                           f"incomparable")
+            return check
+    before_time = _obs_time(before_ev) if before_ev else None
+    ident_time = _obs_time(identical)
+    mism_time = _obs_time(mismatched)
+    final_time = _obs_time(final_ev) if final_ev else None
+    named_times = (("before count", before_time),
+                   ("identical retry", ident_time),
+                   ("changed-argument retry", mism_time),
+                   ("final count", final_time))
+    missing_times = [name for name, value in named_times if value is None]
+    if missing_times:
+        check.update(score="unproven", reason=f"the "
+                       f"{' and '.join(missing_times)} carries no "
+                       f"timestamp of its own, so the counts cannot "
+                       f"be shown to bracket both attempts and no "
+                       f"count change can be attributed to the "
+                       f"delayed retries from the observations "
+                       f"themselves")
+        return check
+    if before_time > min(ident_time, mism_time):
+        check.update(score="unproven", reason="the before count was "
+                       "recorded after a delayed retry, so the counts "
+                       "do not bracket both attempts and no count "
+                       "change can be attributed to them")
+        return check
+    if final_time < max(ident_time, mism_time):
+        check.update(score="unproven", reason="the final count was "
+                       "recorded before both delayed retries had run, "
+                       "so the counts do not bracket both attempts and "
+                       "no count change can be attributed to them")
+        return check
+    if after_ident_ev is not None:
+        mid_time = _obs_time(after_ident_ev)
+        if mid_time is not None and (mid_time < ident_time
+                                     or mid_time > final_time):
+            check.update(score="unproven", reason="the intermediate "
+                           "count after the identical retry is "
+                           "timestamped outside the bracket formed by "
+                           "the retries and the final count, so the "
+                           "counts are incomparable")
+            return check
+    # Attribution and bracketing hold. Only now does an increase
+    # count as evidence against the retries.
+    for (prev_name, prev), (name, value) in zip(stages, stages[1:]):
+        if value > prev:
+            which = ("the identical retry" if name == "after_identical"
+                     else "the delayed retries (identical and/or "
+                          "changed-argument)")
+            check.update(score="fail", reason=f"effect count rose "
+                           f"from {prev} to {value} across {which} "
+                           f"for the same scoped operation; the "
+                           f"operation identity was not protected "
+                           f"against fresh execution after the delay")
+            return check
+    if before_ids is not None and final_ids is not None:
+        new_ids = [r for r in final_ids if r not in before_ids]
+        if new_ids:
+            check.update(score="fail", reason=f"new execution "
+                           f"receipt(s) {new_ids} appear in the final "
+                           f"count but not the before count for the "
+                           f"same scoped operation, so a delayed retry "
+                           f"produced a new effect even though the "
+                           f"numeric count is {before} -> {final}")
+            return check
+    # Counts did not rise. Each retry record must still evidence an
+    # attempt that actually reached the retry logic, and the two
+    # records must evidence two distinct attempts — the identical
+    # one carrying the original arguments where those are recorded,
+    # the changed-argument one differing in exactly the configured
+    # field with the configured replacement value.
+    for name, rec in (("identical", identical),
+                      ("changed-argument", mismatched)):
+        blocked = _retry_blocked_reason(rec)
+        if blocked:
+            check.update(score="unproven", reason=f"effect counts are "
+                           f"unchanged, but the {name} delayed retry "
+                           f"{blocked}, so the retry logic was never "
+                           f"exercised by that attempt and protection "
+                           f"is not evidenced for it")
+            return check
+    duplicate = _duplicate_attempt_reason(
+        identical, mismatched, mismatch_field, mismatch_altered_value,
+        original_arguments)
+    if duplicate:
+        check.update(score="unproven", reason=f"effect counts are "
+                       f"unchanged, but {duplicate}, so two distinct "
+                       f"delayed attempts (identical and "
+                       f"changed-argument) are not evidenced")
+        return check
+    # Finally, the deadline itself. A re-run of the delayed leg
+    # after due_at never substitutes its own run time for a stale
+    # file's time, and with no establishable deadline there is no
+    # delayed leg to evidence.
+    if due_at is None:
+        check.update(score="unproven", reason="effect counts are "
+                       "unchanged across both retries, but the agreed "
+                       "delay deadline (due_at) is missing and cannot "
+                       "be derived from the plant, so the delayed "
+                       "result cannot be established")
+        return check
+    early = [name for name, value in named_times[1:] if value < due_at]
+    if early:
+        check.update(score="unproven", reason=f"effect counts are "
+                       f"unchanged, but the {' and '.join(early)} "
+                       f"was observed before the agreed delay "
+                       f"elapsed (stale/early observation), so it "
+                       f"is not evidence from the delayed leg; "
+                       f"re-running the leg after due_at does not "
+                       f"refresh it")
+        return check
+    check.update(score="pass", reason="recorded effect counts for "
+                   "the same scoped operation are unchanged "
+                   f"({before} before, {final} after) and bracket "
+                   f"both the identical retry and the changed-argument "
+                   f"retry, each observed at or after the agreed "
+                   f"delay: zero new effects")
+    return check
+
+
+def _retry_blocked_reason(rec):
+    """Why a recorded retry never reached the retry logic, or None.
+
+    A payment_required refusal happens at the metering layer before
+    any commit and before the binding check (the harness's A2 rule),
+    and a dropped call has no observed outcome at all: neither
+    evidences an attempt the protection logic actually processed.
+    """
+    call = rec.get("call") if isinstance(rec.get("call"), dict) else {}
+    if call.get("dropped") is True:
+        return "was dropped with no response observed"
+    response_class = call.get("response_class") or rec.get("response_class")
+    if response_class is None:
+        return "carries no response class"
+    if response_class == "payment_required":
+        return ("was blocked before reaching the retry logic "
+                "(payment_required: refused at the metering layer "
+                "before any commit, so the binding check was never "
+                "exercised)")
+    return None
+
+
+def _duplicate_attempt_reason(identical, mismatched, mismatch_field=None,
+                              mismatch_altered_value=None,
+                              original_arguments=None):
+    """Why the two retry records do not evidence two distinct
+    attempts (one identical, one changed-argument), or None.
+
+    The argument check is part of the evidence, not a formality:
+    labels alone never establish it. Where the original arguments
+    are recorded, the identical retry must carry exactly them; the
+    changed-argument retry must differ in exactly one field — the
+    configured mismatch field, carrying the configured replacement
+    value, when the plant's configuration records them.
+    """
+    if identical == mismatched:
+        return "the two retry files record the same attempt verbatim"
+    label_i, label_m = identical.get("label"), mismatched.get("label")
+    if label_i and label_i == label_m:
+        return f"both retry files carry the same label ({label_i})"
+    ids_i = _attempt_ids(identical)
+    ids_m = _attempt_ids(mismatched)
+    if ids_i and ids_m and ids_i & ids_m:
+        return ("both retry files carry the same transport request "
+                "id, so they record the same attempt")
+    args_i = identical.get("arguments_sent")
+    args_m = mismatched.get("arguments_sent")
+    if args_i is None or args_m is None:
+        which = ("identical" if args_i is None else "changed-argument")
+        return (f"the {which} retry record carries no "
+                f"arguments_sent, so the argument check cannot be "
+                f"verified; labels alone do not evidence it")
+    if args_i == args_m:
+        return ("both retry files carry identical arguments_sent, "
+                "so no changed-argument attempt is evidenced")
+    if original_arguments is not None and args_i != original_arguments:
+        return ("the identical retry's arguments_sent do not match "
+                "the original arguments as recorded, so it is not "
+                "evidenced as a retry of the original call")
+    # The changed-argument attempt must change exactly one
+    # parameter value (CONTRACT.md A2/A5 setup), and when the
+    # plant's configuration names that parameter, it must be
+    # the one that changed.
+    diff_keys = sorted(k for k in set(args_i) | set(args_m)
+                       if args_i.get(k) != args_m.get(k))
+    if len(diff_keys) != 1:
+        return (f"the changed-argument record differs from the "
+                f"identical record in {len(diff_keys)} fields "
+                f"({diff_keys}), not exactly one parameter value")
+    if mismatch_field and diff_keys != [mismatch_field]:
+        return (f"the changed-argument record changed "
+                f"{diff_keys[0]!r}, not the configured mismatch "
+                f"field {mismatch_field!r}")
+    if (mismatch_field and mismatch_altered_value is not None
+            and args_m.get(mismatch_field) != mismatch_altered_value):
+        return (f"the changed-argument record carries "
+                f"{mismatch_field}={args_m.get(mismatch_field)!r}, "
+                f"not the configured replacement value "
+                f"{mismatch_altered_value!r}")
+    return None
+
+
+def _attempt_ids(rec):
+    call = rec.get("call") if isinstance(rec.get("call"), dict) else {}
+    body = call.get("body") if isinstance(call.get("body"), dict) else {}
+    transport = (call.get("transport")
+                 if isinstance(call.get("transport"), dict) else {})
+    ids = set()
+    for value in (body.get("id"), transport.get("jsonrpc_id")):
+        if value:
+            ids.add(value)
+    return ids
+
+
+def _substitute_scope(value, k_value, session_id):
+    """Deep-copy `value` replacing {K} / {SESSION} placeholders in
+    strings — the same substitution the adapters apply to the
+    plant's configured argument template."""
+    if isinstance(value, str):
+        out = value
+        if k_value is not None:
+            out = out.replace("{K}", str(k_value))
+        if session_id is not None:
+            out = out.replace("{SESSION}", str(session_id))
+        return out
+    if isinstance(value, dict):
+        return {key: _substitute_scope(item, k_value, session_id)
+                for key, item in value.items()}
+    if isinstance(value, list):
+        return [_substitute_scope(item, k_value, session_id)
+                for item in value]
+    return value
+
+
+def score_a5(observations):
+    """Score CONTRACT.md A5 from recorded observations only.
+
+    Pure: no I/O, no adapter, no network, no dispatch. See the
+    observation shape and verdict rules above this function.
+    Returns {"score", "reason", "checks": {"recovery", "retry_
+    protection"}, plus each check under its own name}.
+    """
+    obs = observations if isinstance(observations, dict) else {}
+    plant = obs.get("plant") if isinstance(obs.get("plant"), dict) else {}
+    committed_digest = _norm_digest(
+        obs.get("committed_digest") or plant.get("committed_digest"))
+    due_at = _parse_ts(obs.get("due_at") or plant.get("due_at"))
+    if due_at is None:
+        planted_at = _parse_ts(obs.get("planted_at") or plant.get("planted_at"))
+        delay_hours = obs.get("delay_hours", plant.get("delay_hours"))
+        if planted_at is not None and isinstance(delay_hours, (int, float)):
+            due_at = planted_at + timedelta(hours=delay_hours)
+    plant_scope = {}
+    for field in ("session_id", "K", "operation_key"):
+        value = obs.get(field) or plant.get(field)
+        if value is not None:
+            plant_scope[field] = value
+    if plant_scope.get("K") and "operation_key" not in plant_scope:
+        plant_scope["operation_key"] = plant_scope["K"]
+    if plant_scope.get("operation_key") and "K" not in plant_scope:
+        plant_scope["K"] = plant_scope["operation_key"]
+
+    plant_receipt_ids = (obs.get("execution_receipt_ids")
+                         or plant.get("execution_receipt_ids") or [])
+    adapter_config = (obs.get("adapter_config")
+                      or plant.get("adapter_config") or {})
+    mismatch_cfg = adapter_config.get("mismatch") or {}
+    mismatch_field = obs.get("mismatch_field") or mismatch_cfg.get("field")
+    mismatch_altered_value = (obs.get("mismatch_altered_value")
+                              or mismatch_cfg.get("altered_value"))
+    # The original arguments, where recorded: an explicit record
+    # wins; otherwise the plant's configured argument template with
+    # the plant's own K/session substituted is the original call.
+    original_arguments = (obs.get("original_arguments")
+                          or plant.get("original_arguments"))
+    if not isinstance(original_arguments, dict):
+        template = adapter_config.get("args_template")
+        if isinstance(template, dict) and plant_scope:
+            original_arguments = _substitute_scope(
+                template, plant_scope.get("K"),
+                plant_scope.get("session_id"))
+        else:
+            original_arguments = None
+    recovery = _score_a5_recovery(obs, committed_digest, due_at)
+    protection = _score_a5_protection(
+        obs, due_at, plant_scope, plant_receipt_ids, mismatch_field,
+        mismatch_altered_value, original_arguments)
+    checks = {"recovery": recovery, "retry_protection": protection}
+    scores = (recovery["score"], protection["score"])
+    if "fail" in scores:
+        overall = "fail"
+    elif scores == ("pass", "pass"):
+        overall = "pass"
+    else:
+        overall = "unproven"
+    reason = (f"recovery: {recovery['score']} — {recovery['reason']}; "
+              f"retry protection: {protection['score']} — "
+              f"{protection['reason']}")
+    return {"score": overall, "reason": reason, "checks": checks,
+            "recovery": recovery, "retry_protection": protection}
+
+
+def _load_recorded_json(out_dir, name):
+    path = Path(out_dir) / name
+    if not path.is_file():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return None
+
+
 def delayed_leg(plant_path):
     plant = json.loads(Path(plant_path).read_text(encoding="utf-8"))
     out_dir = Path(plant_path).parent
@@ -327,26 +1239,104 @@ def delayed_leg(plant_path):
         })
     result = {"assertion": "A5", "delayed_leg_run_at": utcnow(), "plant": plant,
               "legs": {}}
+    # The only reads this leg makes are the two it has always made:
+    # the run-id record (diagnostic) and the K-only record. No new
+    # network calls and no dispatch: the delayed retries and effect
+    # counts are never executed here; if they were recorded earlier
+    # (e.g. by a supplementary probe) in this run directory, the
+    # scorer below reads those recorded observations, and otherwise
+    # retry protection is honestly unproven. The scorer judges those
+    # files by their own recorded timestamps, so re-running this leg
+    # after due_at never refreshes stale protection evidence.
     ids = plant.get("execution_receipt_ids") or []
+    run_id_obs = None
     if ids:
         record = adapter.fetch_record(ids[0])
         writer.write("a5_delayed_runid_receipt.json", record)
         digests = digests_of(record)
-        served = next(iter(digests.values()), None)
-        result["legs"]["run_id"] = {"http_status": record["http_status"],
-                                    "digest_served": served,
-                                    "committed_digest": plant.get("committed_digest"),
-                                    "digest_equal": bool(served and plant.get("committed_digest") and served == plant["committed_digest"]),
-                                    "recomputation": record["recomputation"]}
+        served = result_digest_of(digests)
+        run_id_obs = {"http_status": record["http_status"],
+                      "digests": digests,
+                      "fetched_at": record.get("fetched_at")
+                                    or result["delayed_leg_run_at"],
+                      "recomputation": record.get("recomputation")}
+        result["legs"]["run_id"] = {
+            "http_status": record["http_status"],
+            "digest_served": served,
+            "committed_digest": plant.get("committed_digest"),
+            "digest_equal": bool(served and plant.get("committed_digest")
+                                 and _norm_digest(served) == _norm_digest(plant["committed_digest"])),
+            "recomputation": record["recomputation"],
+            "note": "diagnostic evidence only; the run-id lookup does "
+                    "not gate the A5 recovery verdict"}
     rec = adapter.fetch_record(plant["K"])
-    result["legs"]["k_only_direct_lookup"] = {"http_status": rec["http_status"]}
-    runid_ok = result["legs"].get("run_id", {}).get("digest_equal")
-    result["score"] = "pass" if runid_ok and rec["http_status"] == 200 else "fail"
-    if not ids:
-        result["score"] = "unproven"
-        result["reason"] = "plant carries no committed receipt id"
-    else:
-        result["reason"] = "scored from the delayed run-id digest equality and the K-only lookup, exactly as observed; see a5_delayed_result.json"
+    writer.write("a5_delayed_konly_run_lookup.json", rec)
+    k_digests = digests_of(rec)
+    k_recovered = result_digest_of(k_digests)
+    result["legs"]["k_only_direct_lookup"] = {
+        "http_status": rec["http_status"],
+        "digests": k_digests,
+        "recovered_digest": k_recovered,
+        "committed_digest": plant.get("committed_digest"),
+        "digest_equal": bool(k_recovered and plant.get("committed_digest")
+                             and _norm_digest(k_recovered) == _norm_digest(plant["committed_digest"])),
+        "recomputation": rec.get("recomputation")}
+    # Recorded retry-protection observations, if already present.
+    protection = None
+    counts_before = _load_recorded_json(
+        out_dir, "count_a5_delayed_before_protection.json")
+    counts_final = _load_recorded_json(
+        out_dir, "count_a5_delayed_final.json")
+    counts_after_ident = _load_recorded_json(
+        out_dir, "count_a5_delayed_after_identical.json")
+    retry_identical = _load_recorded_json(
+        out_dir, "a5_delayed_retry_identical.json")
+    retry_mismatched = _load_recorded_json(
+        out_dir, "a5_delayed_retry_mismatched.json")
+    if any(v is not None for v in (counts_before, counts_final,
+                                   counts_after_ident, retry_identical,
+                                   retry_mismatched)):
+        # No scope is stamped on this wrapper: the plant's session/K
+        # on the block would not establish the scope of the records
+        # under it, so the scorer validates each record's own scope.
+        protection = {"counts_before": counts_before,
+                      "counts_after": counts_final,
+                      "identical_retry": retry_identical,
+                      "mismatched_retry": retry_mismatched}
+        if counts_after_ident is not None:
+            protection["counts_after_identical"] = counts_after_ident
+    # The original call's arguments, where recorded at plant time
+    # (the dropped A1 attempt's file carries arguments_sent): the
+    # scorer verifies the identical delayed retry against them.
+    a1_attempt = _load_recorded_json(out_dir, "a1_attempt1_dropped.json")
+    original_arguments = (a1_attempt.get("arguments_sent")
+                          if isinstance(a1_attempt, dict) else None)
+    observations = {
+        "plant": plant,
+        "original_arguments": original_arguments,
+        "committed_digest": plant.get("committed_digest"),
+        "due_at": plant.get("due_at"),
+        "planted_at": plant.get("planted_at"),
+        "delay_hours": plant.get("delay_hours"),
+        "K": plant.get("K"),
+        "session_id": plant.get("session_id"),
+        "observed_at": result["delayed_leg_run_at"],
+        "k_only": {"http_status": rec["http_status"],
+                   "digests": k_digests,
+                   "fetched_at": rec.get("fetched_at")
+                                 or result["delayed_leg_run_at"],
+                   "recomputation": rec.get("recomputation")},
+        "run_id": run_id_obs,
+        "protection": protection,
+    }
+    verdict = score_a5(observations)
+    result["checks"] = verdict["checks"]
+    result["recovery"] = verdict["recovery"]
+    result["retry_protection"] = verdict["retry_protection"]
+    result["score"] = verdict["score"]
+    result["reason"] = ("A5 scored by score_a5 from recorded "
+                        "observations only: " + verdict["reason"] +
+                        "; see a5_delayed_result.json")
     writer.write("a5_delayed_result.json", result)
     print(json.dumps(result, indent=2))
     return result
