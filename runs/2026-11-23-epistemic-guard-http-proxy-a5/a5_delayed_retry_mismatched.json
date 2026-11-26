@@ -1,0 +1,35 @@
+{
+  "arguments_sent": {
+    "description": "run_session=lr-c814f1e57c-a1",
+    "priority": "urgent",
+    "title": "lr-op-c814f1e57c-a1: deploy migration"
+  },
+  "call": {
+    "body": {
+      "error": {
+        "code": -32602,
+        "data": {
+          "error_code": "idempotency_parameter_mismatch",
+          "operation_key": "lr-op-c814f1e57c-a1"
+        },
+        "message": "Idempotency binding mismatch for operation_key='lr-op-c814f1e57c-a1': parameters differ from original committed request."
+      },
+      "id": "45ab4b7f54fd4e49981a03228996dc56",
+      "jsonrpc": "2.0"
+    },
+    "dropped": false,
+    "receipt_ids": [],
+    "replayed": false,
+    "response_class": "jsonrpc_error:-32602",
+    "transport": {
+      "content_type": "application/json",
+      "elapsed_ms": 16,
+      "http_status": 409,
+      "method": "POST",
+      "received_at": "2026-11-24T01:02:57.467517Z",
+      "response_bytes": 307,
+      "sent_at": "2026-11-24T01:02:57.451125Z",
+      "url": "http://127.0.0.1:47411/mcp"
+    }
+  }
+}

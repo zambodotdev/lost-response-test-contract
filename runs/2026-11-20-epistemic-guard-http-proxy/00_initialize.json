@@ -1,0 +1,109 @@
+{
+  "adapter": "epistemic_guard",
+  "adapter_version": "0.1.0",
+  "at": "2026-11-20T14:11:24.228973Z",
+  "backend_url": "http://127.0.0.1:47410",
+  "initialize": {
+    "body": {
+      "id": "5bc04e6dcd684aceb06c7f92ebf6fce5",
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {}
+        },
+        "protocolVersion": "2025-03-26",
+        "serverInfo": {
+          "name": "naive-sqlite-ticket-mcp",
+          "version": "0.1.0"
+        }
+      }
+    },
+    "request": {
+      "id": "5bc04e6dcd684aceb06c7f92ebf6fce5",
+      "jsonrpc": "2.0",
+      "method": "initialize",
+      "params": {
+        "capabilities": {},
+        "clientInfo": {
+          "name": "lost-response-harness",
+          "version": "1.0.0"
+        },
+        "protocolVersion": "2025-03-26"
+      }
+    },
+    "transport": {
+      "content_type": "application/json",
+      "elapsed_ms": 17,
+      "headers": {
+        "content-length": "207",
+        "content-type": "application/json",
+        "date": "Fri, 20 Nov 2026 14:11:24 GMT",
+        "server": "BaseHTTP/0.6 Python/3.13.15"
+      },
+      "http_status": 200,
+      "method": "POST",
+      "received_at": "2026-11-20T14:11:24.207506Z",
+      "response_bytes": 207,
+      "sent_at": "2026-11-20T14:11:24.190831Z",
+      "url": "http://127.0.0.1:47411/mcp"
+    }
+  },
+  "mcp_url": "http://127.0.0.1:47411/mcp",
+  "mode": "epistemic_guard_http_proxy",
+  "receipt_base_url": "http://127.0.0.1:47411",
+  "tools_list": {
+    "body": {
+      "id": "14145eca3ab6418b9de8d6f8ed1a2174",
+      "jsonrpc": "2.0",
+      "result": {
+        "tools": [
+          {
+            "description": "Create one durable ticket row (non-idempotent upstream).",
+            "inputSchema": {
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "priority": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "description",
+                "priority"
+              ],
+              "type": "object"
+            },
+            "name": "create_ticket"
+          }
+        ]
+      }
+    },
+    "request": {
+      "id": "14145eca3ab6418b9de8d6f8ed1a2174",
+      "jsonrpc": "2.0",
+      "method": "tools/list",
+      "params": {}
+    },
+    "transport": {
+      "content_type": "application/json",
+      "elapsed_ms": 21,
+      "headers": {
+        "content-length": "382",
+        "content-type": "application/json",
+        "date": "Fri, 20 Nov 2026 14:11:24 GMT",
+        "server": "BaseHTTP/0.6 Python/3.13.15"
+      },
+      "http_status": 200,
+      "method": "POST",
+      "received_at": "2026-11-20T14:11:24.228960Z",
+      "response_bytes": 382,
+      "sent_at": "2026-11-20T14:11:24.207537Z",
+      "url": "http://127.0.0.1:47411/mcp"
+    }
+  }
+}

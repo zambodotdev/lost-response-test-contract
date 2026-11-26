@@ -1,0 +1,92 @@
+{
+  "body_text": "{\"aer1\":{\"canonical_bytes\":\"eyJjYWxsZXIiOnsiaWQiOiJodHRwLW1jcC0xLTE5YzA4MGUxIiwic2Vzc2lvbl9pZCI6InNlc3MtYzQyNmI0ZGZiOThlIiwidHlwZSI6ImNhbGwifSwiaW5wdXRzIjp7ImRlc2NyaXB0aW9uIjoicnVuX3Nlc3Npb249bHItYzgxNGYxZTU3Yy1hMSIsInByaW9yaXR5Ijoibm9ybWFsIiwidGl0bGUiOiJsci1vcC1jODE0ZjFlNTdjLWExOiBkZXBsb3kgbWlncmF0aW9uIn0sImlzc3Vlcl9jbGFpbXMiOnsicHJvdmVuYW5jZV9jbGFzcyI6IkVYRUNVVEVEIEJZIEVQSVNURU1JQy1HVUFSRCJ9LCJvdXRwdXQiOnsidGV4dCI6IntcImNyZWF0ZWRfYXRcIjogXCIyMDI2LTExLTIyVDIyOjEzOjA5LjE5OTQwOFpcIiwgXCJkZXNjcmlwdGlvblwiOiBcInJ1bl9zZXNzaW9uPWxyLWM4MTRmMWU1N2MtYTFcIiwgXCJpZFwiOiBcIlQtMVwiLCBcInByaW9yaXR5XCI6IFwibm9ybWFsXCIsIFwidGl0bGVcIjogXCJsci1vcC1jODE0ZjFlNTdjLWExOiBkZXBsb3kgbWlncmF0aW9uXCIsIFwidmVyc2lvblwiOiAxfSJ9LCJyZWNlaXB0X3NjaGVtYV92ZXJzaW9uIjoiMC40IiwidG9vbCI6eyJuYW1lIjoiY3JlYXRlX3RpY2tldCIsInNjb3BlIjoibG9jYWwiLCJ2ZXJzaW9uIjoiMC42LjAifX0=\",\"created_at\":\"2026-11-22T22:13:09.203966+00:00\",\"id\":\"7e53239f-25f4-4e23-90b3-b1f2ce19f746\",\"input_hash\":\"sha256:27476204876a48ab5803374ba64525a7e253ac42cab3d834a649412a28e64ada\",\"metadata_hash\":\"sha256:6aee04814f712ac78c4d4646072a27c200cb618e7466d1f8363fca1cc013d8fc\",\"output_hash\":\"sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7\",\"provenance_class\":\"EXECUTED BY EPISTEMIC-GUARD\",\"receipt_schema_version\":\"0.4\",\"steps\":[{\"completed_at\":\"2026-11-22T22:13:09.203966+00:00\",\"status\":\"success\",\"tool\":\"create_ticket\"}],\"tool\":{\"name\":\"create_ticket\",\"scope\":\"local\",\"version\":\"0.6.0\"},\"verification_status\":\"verified\"},\"aer1_output_hash\":\"sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7\",\"cached_rpc_result\":{\"id\":\"a887b356e2694721bc2486db221ed980\",\"jsonrpc\":\"2.0\",\"result\":{\"content\":[{\"text\":\"{\\\"created_at\\\": \\\"2026-11-22T22:13:09.199408Z\\\", \\\"description\\\": \\\"run_session=lr-c814f1e57c-a1\\\", \\\"id\\\": \\\"T-1\\\", \\\"priority\\\": \\\"normal\\\", \\\"title\\\": \\\"lr-op-c814f1e57c-a1: deploy migration\\\", \\\"version\\\": 1}\",\"type\":\"text\"}],\"isError\":false,\"structuredContent\":{\"created_at\":\"2026-11-22T22:13:09.199408Z\",\"description\":\"run_session=lr-c814f1e57c-a1\",\"id\":\"T-1\",\"priority\":\"normal\",\"title\":\"lr-op-c814f1e57c-a1: deploy migration\",\"version\":1}}},\"call_id\":\"http-mcp-1-19c080e1\",\"executed\":true,\"merkle_root\":\"8ef978e3a2f748e48a169fa6e0f70b6fd69047c5e0153ca1a54ac6ab88fb7617\",\"ok\":true,\"operation_key\":\"http-mcp-1-19c080e1\",\"output\":\"{\\\"created_at\\\": \\\"2026-11-22T22:13:09.199408Z\\\", \\\"description\\\": \\\"run_session=lr-c814f1e57c-a1\\\", \\\"id\\\": \\\"T-1\\\", \\\"priority\\\": \\\"normal\\\", \\\"title\\\": \\\"lr-op-c814f1e57c-a1: deploy migration\\\", \\\"version\\\": 1}\",\"output_sha256\":\"e06d485a7601c61e225db880557c3844dc301e0cd6afc65eb79d23774fd0c554\",\"receipt\":{\"args\":{\"description\":\"run_session=lr-c814f1e57c-a1\",\"priority\":\"normal\",\"title\":\"lr-op-c814f1e57c-a1: deploy migration\"},\"call_id\":\"http-mcp-1-19c080e1\",\"effect_observation\":null,\"endpoint_id\":\"http://127.0.0.1:47410/mcp\",\"error_code\":\"\",\"evidence_tier\":\"\",\"executed\":true,\"ok\":true,\"output\":\"{\\\"created_at\\\": \\\"2026-11-22T22:13:09.199408Z\\\", \\\"description\\\": \\\"run_session=lr-c814f1e57c-a1\\\", \\\"id\\\": \\\"T-1\\\", \\\"priority\\\": \\\"normal\\\", \\\"title\\\": \\\"lr-op-c814f1e57c-a1: deploy migration\\\", \\\"version\\\": 1}\",\"output_sha256\":\"e06d485a7601c61e225db880557c3844dc301e0cd6afc65eb79d23774fd0c554\",\"session_id\":\"sess-c426b4dfb98e\",\"signature\":\"ed25519:UUmYqOiXqvKPO5OyBrjYRaC6MjZEqHjaYMQqxaMiIHfCbZ4f/0/Ecj9Au2zYnirXEUf5AG8M0Bo/3A4Lgo4rAQ==\",\"timestamp_utc\":\"2026-11-22T22:13:09.203966+00:00\",\"tool\":\"create_ticket\",\"tool_definition_sha256\":\"3c21f1ea1d6d33d162642c5ca1ca5781a3966f3ff8912d993750a2e826692ca3\"},\"status\":\"committed\",\"tool\":\"create_ticket\"}",
+  "digests": {
+    "output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7"
+  },
+  "fetched_at": "2026-11-24T01:02:57.435096Z",
+  "http_status": 200,
+  "recomputation": {
+    "recomputed_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+    "served_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+    "status": "matched"
+  },
+  "record_id": "http-mcp-1-19c080e1",
+  "record_json": {
+    "aer1": {
+      "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJodHRwLW1jcC0xLTE5YzA4MGUxIiwic2Vzc2lvbl9pZCI6InNlc3MtYzQyNmI0ZGZiOThlIiwidHlwZSI6ImNhbGwifSwiaW5wdXRzIjp7ImRlc2NyaXB0aW9uIjoicnVuX3Nlc3Npb249bHItYzgxNGYxZTU3Yy1hMSIsInByaW9yaXR5Ijoibm9ybWFsIiwidGl0bGUiOiJsci1vcC1jODE0ZjFlNTdjLWExOiBkZXBsb3kgbWlncmF0aW9uIn0sImlzc3Vlcl9jbGFpbXMiOnsicHJvdmVuYW5jZV9jbGFzcyI6IkVYRUNVVEVEIEJZIEVQSVNURU1JQy1HVUFSRCJ9LCJvdXRwdXQiOnsidGV4dCI6IntcImNyZWF0ZWRfYXRcIjogXCIyMDI2LTExLTIyVDIyOjEzOjA5LjE5OTQwOFpcIiwgXCJkZXNjcmlwdGlvblwiOiBcInJ1bl9zZXNzaW9uPWxyLWM4MTRmMWU1N2MtYTFcIiwgXCJpZFwiOiBcIlQtMVwiLCBcInByaW9yaXR5XCI6IFwibm9ybWFsXCIsIFwidGl0bGVcIjogXCJsci1vcC1jODE0ZjFlNTdjLWExOiBkZXBsb3kgbWlncmF0aW9uXCIsIFwidmVyc2lvblwiOiAxfSJ9LCJyZWNlaXB0X3NjaGVtYV92ZXJzaW9uIjoiMC40IiwidG9vbCI6eyJuYW1lIjoiY3JlYXRlX3RpY2tldCIsInNjb3BlIjoibG9jYWwiLCJ2ZXJzaW9uIjoiMC42LjAifX0=",
+      "created_at": "2026-11-22T22:13:09.203966+00:00",
+      "id": "7e53239f-25f4-4e23-90b3-b1f2ce19f746",
+      "input_hash": "sha256:27476204876a48ab5803374ba64525a7e253ac42cab3d834a649412a28e64ada",
+      "metadata_hash": "sha256:6aee04814f712ac78c4d4646072a27c200cb618e7466d1f8363fca1cc013d8fc",
+      "output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+      "provenance_class": "EXECUTED BY EPISTEMIC-GUARD",
+      "receipt_schema_version": "0.4",
+      "steps": [
+        {
+          "completed_at": "2026-11-22T22:13:09.203966+00:00",
+          "status": "success",
+          "tool": "create_ticket"
+        }
+      ],
+      "tool": {
+        "name": "create_ticket",
+        "scope": "local",
+        "version": "0.6.0"
+      },
+      "verification_status": "verified"
+    },
+    "aer1_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+    "cached_rpc_result": {
+      "id": "a887b356e2694721bc2486db221ed980",
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"created_at\": \"2026-11-22T22:13:09.199408Z\", \"description\": \"run_session=lr-c814f1e57c-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-c814f1e57c-a1: deploy migration\", \"version\": 1}",
+            "type": "text"
+          }
+        ],
+        "isError": false,
+        "structuredContent": {
+          "created_at": "2026-11-22T22:13:09.199408Z",
+          "description": "run_session=lr-c814f1e57c-a1",
+          "id": "T-1",
+          "priority": "normal",
+          "title": "lr-op-c814f1e57c-a1: deploy migration",
+          "version": 1
+        }
+      }
+    },
+    "call_id": "http-mcp-1-19c080e1",
+    "executed": true,
+    "merkle_root": "8ef978e3a2f748e48a169fa6e0f70b6fd69047c5e0153ca1a54ac6ab88fb7617",
+    "ok": true,
+    "operation_key": "http-mcp-1-19c080e1",
+    "output": "{\"created_at\": \"2026-11-22T22:13:09.199408Z\", \"description\": \"run_session=lr-c814f1e57c-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-c814f1e57c-a1: deploy migration\", \"version\": 1}",
+    "output_sha256": "e06d485a7601c61e225db880557c3844dc301e0cd6afc65eb79d23774fd0c554",
+    "receipt": {
+      "args": {
+        "description": "run_session=lr-c814f1e57c-a1",
+        "priority": "normal",
+        "title": "lr-op-c814f1e57c-a1: deploy migration"
+      },
+      "call_id": "http-mcp-1-19c080e1",
+      "effect_observation": null,
+      "endpoint_id": "http://127.0.0.1:47410/mcp",
+      "error_code": "",
+      "evidence_tier": "",
+      "executed": true,
+      "ok": true,
+      "output": "{\"created_at\": \"2026-11-22T22:13:09.199408Z\", \"description\": \"run_session=lr-c814f1e57c-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-c814f1e57c-a1: deploy migration\", \"version\": 1}",
+      "output_sha256": "e06d485a7601c61e225db880557c3844dc301e0cd6afc65eb79d23774fd0c554",
+      "session_id": "sess-c426b4dfb98e",
+      "signature": "ed25519:UUmYqOiXqvKPO5OyBrjYRaC6MjZEqHjaYMQqxaMiIHfCbZ4f/0/Ecj9Au2zYnirXEUf5AG8M0Bo/3A4Lgo4rAQ==",
+      "timestamp_utc": "2026-11-22T22:13:09.203966+00:00",
+      "tool": "create_ticket",
+      "tool_definition_sha256": "3c21f1ea1d6d33d162642c5ca1ca5781a3966f3ff8912d993750a2e826692ca3"
+    },
+    "status": "committed",
+    "tool": "create_ticket"
+  },
+  "url": "http://127.0.0.1:47411/receipts/http-mcp-1-19c080e1"
+}

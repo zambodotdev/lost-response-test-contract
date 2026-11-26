@@ -1,0 +1,41 @@
+{
+  "committed_digest": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+  "legs": {
+    "k_only": {
+      "K": "lr-op-3308adb5dc-a1",
+      "attempts": [
+        {
+          "depends_on_caller_convention": false,
+          "digest_returned": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+          "http_status": 200,
+          "path": "GET /receipts/<K> on epistemic-guard McpStreamableHttpProxy (using ONLY K)",
+          "recomputation": {
+            "recomputed_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+            "served_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+            "status": "matched"
+          },
+          "response_class": "found"
+        }
+      ],
+      "reason": "recovered digest equals committed digest using only K",
+      "score": "pass"
+    },
+    "run_id": {
+      "digests_served": {
+        "output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707"
+      },
+      "http_status": 200,
+      "note": "Section 9 resolution returned the unaltered record from the public JSON record; Section 6 recomputation is the harness's own SHA-256 over the decoded canonical bytes compared with the served output_hash, recorded in the recomputation block.",
+      "page_http_status": null,
+      "receipt_id": "http-mcp-1-39a4387b",
+      "recomputation": {
+        "recomputed_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+        "served_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+        "status": "matched"
+      },
+      "score": "pass"
+    }
+  },
+  "reason": "contract pass condition is the K-only leg: recovered digest equals committed digest using only K; run-id leg scored pass separately in the evidence",
+  "score": "pass"
+}

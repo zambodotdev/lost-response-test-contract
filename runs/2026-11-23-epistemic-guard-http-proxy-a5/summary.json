@@ -1,0 +1,100 @@
+{
+  "adapter": "epistemic_guard",
+  "assertions": {
+    "A1": {
+      "K": "lr-op-c814f1e57c-a1",
+      "count_after_attempt1": 1,
+      "execution_receipt_ids": [
+        "http-mcp-1-19c080e1"
+      ],
+      "final_external_effect_count": 1,
+      "reason": "external effect count for the logical operation is exactly 1",
+      "retry_response_class": "success",
+      "score": "pass",
+      "session_id": "lr-c814f1e57c-a1"
+    },
+    "A2": {
+      "K": "lr-op-c814f1e57c-a2",
+      "count_after_attempt1": 1,
+      "execution_receipt_ids": [
+        "http-mcp-2-a4256508"
+      ],
+      "final_external_effect_count": 1,
+      "mismatched_field": "priority",
+      "reason": "mismatched retry produced no new effect and was explicitly refused",
+      "retry_response_class": "jsonrpc_error:-32602",
+      "score": "pass",
+      "session_id": "lr-c814f1e57c-a2"
+    },
+    "A3": {
+      "committed_digest": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+      "legs": {
+        "k_only": {
+          "K": "lr-op-c814f1e57c-a1",
+          "attempts": [
+            {
+              "depends_on_caller_convention": false,
+              "digest_returned": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+              "http_status": 200,
+              "path": "GET /receipts/<K> on epistemic-guard McpStreamableHttpProxy (using ONLY K)",
+              "recomputation": {
+                "recomputed_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+                "served_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+                "status": "matched"
+              },
+              "response_class": "found"
+            }
+          ],
+          "reason": "recovered digest equals committed digest using only K",
+          "score": "pass"
+        },
+        "run_id": {
+          "digests_served": {
+            "output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7"
+          },
+          "http_status": 200,
+          "note": "Section 9 resolution returned the unaltered record from the public JSON record; Section 6 recomputation is the harness's own SHA-256 over the decoded canonical bytes compared with the served output_hash, recorded in the recomputation block.",
+          "page_http_status": null,
+          "receipt_id": "http-mcp-1-19c080e1",
+          "recomputation": {
+            "recomputed_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+            "served_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+            "status": "matched"
+          },
+          "score": "pass"
+        }
+      },
+      "reason": "contract pass condition is the K-only leg: recovered digest equals committed digest using only K; run-id leg scored pass separately in the evidence",
+      "score": "pass"
+    },
+    "A4": {
+      "reason": "every recorded retry resolved to the original outcome, a digest-verifiable record of it, or an explicit non-success state",
+      "response_classes": {
+        "A1_retry": "success",
+        "A2_retry": "jsonrpc_error:-32602"
+      },
+      "score": "pass",
+      "verdicts": {
+        "A1_retry": "success corresponding to a committed record (see the A1/A2 counts); not a generic success with no record",
+        "A2_retry": "explicit non-success state"
+      }
+    },
+    "A5": {
+      "due_at": "2026-11-23T22:13:09.408082Z",
+      "plant_file": "a5_plant.json",
+      "reason": "the 24 hour delayed leg cannot complete on the planting day; attempt 1 is planted with its commit timestamp recorded and the delayed leg is runnable later by run id and by K",
+      "score": "unproven"
+    }
+  },
+  "endpoint": "http://127.0.0.1:47411/mcp",
+  "finished_at": "2026-11-22T22:13:09.408435Z",
+  "initialize": {
+    "http_status": 200,
+    "mode": "epistemic_guard_http_proxy",
+    "proxied_by_epistemic_guard": true
+  },
+  "run_tag": "c814f1e57c",
+  "started_at": "2026-11-22T22:13:09.122172Z",
+  "system_name": "epistemic-guard v0.6.0 McpStreamableHttpProxy in front of unmodified naive MCP provider",
+  "tool": "create_ticket"
+}

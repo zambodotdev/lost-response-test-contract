@@ -1,0 +1,46 @@
+{
+  "arguments_sent": {
+    "description": "run_session=lr-3308adb5dc-a1",
+    "priority": "normal",
+    "title": "lr-op-3308adb5dc-a1: deploy migration"
+  },
+  "call": {
+    "body": {
+      "id": "db81e667f0e14d039a7e7dd7ff218424",
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"created_at\": \"2026-11-20T15:14:29.119727Z\", \"description\": \"run_session=lr-3308adb5dc-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-3308adb5dc-a1: deploy migration\", \"version\": 1}",
+            "type": "text"
+          }
+        ],
+        "isError": false,
+        "structuredContent": {
+          "created_at": "2026-11-20T15:14:29.119727Z",
+          "description": "run_session=lr-3308adb5dc-a1",
+          "id": "T-1",
+          "priority": "normal",
+          "title": "lr-op-3308adb5dc-a1: deploy migration",
+          "version": 1
+        }
+      }
+    },
+    "dropped": false,
+    "receipt_ids": [
+      "http-mcp-1-39a4387b"
+    ],
+    "replayed": true,
+    "response_class": "success",
+    "transport": {
+      "content_type": "application/json",
+      "elapsed_ms": 15,
+      "http_status": 200,
+      "method": "POST",
+      "received_at": "2026-11-22T20:47:03.262001Z",
+      "response_bytes": 536,
+      "sent_at": "2026-11-22T20:47:03.247125Z",
+      "url": "http://127.0.0.1:47411/mcp"
+    }
+  }
+}

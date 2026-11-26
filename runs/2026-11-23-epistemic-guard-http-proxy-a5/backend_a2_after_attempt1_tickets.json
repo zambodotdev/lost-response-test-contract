@@ -1,0 +1,30 @@
+{
+  "body": {
+    "tickets": [
+      {
+        "created_at": "2026-11-22T22:13:09.315989Z",
+        "description": "run_session=lr-c814f1e57c-a2",
+        "id": "T-2",
+        "priority": "normal",
+        "title": "lr-op-c814f1e57c-a2: deploy migration",
+        "version": 1
+      }
+    ]
+  },
+  "transport": {
+    "content_type": "application/json",
+    "elapsed_ms": 12,
+    "headers": {
+      "content-length": "206",
+      "content-type": "application/json",
+      "date": "Sun, 22 Nov 2026 22:13:09 GMT",
+      "server": "BaseHTTP/0.6 Python/3.13.15"
+    },
+    "http_status": 200,
+    "method": "GET",
+    "received_at": "2026-11-22T22:13:09.333139Z",
+    "response_bytes": 206,
+    "sent_at": "2026-11-22T22:13:09.321354Z",
+    "url": "http://127.0.0.1:47410/tickets?title_prefix=lr-op-c814f1e57c-a2"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "adapter": "epistemic_guard",
+  "system_name": "epistemic-guard v0.6.0 McpStreamableHttpProxy in front of unmodified naive MCP provider",
+  "a5_delay_hours": 24,
+  "adapter_config": {
+    "mode": "epistemic_guard_http_proxy",
+    "mcp_url": "http://127.0.0.1:47411/mcp",
+    "backend_url": "http://127.0.0.1:47410",
+    "receipt_base_url": "http://127.0.0.1:47411",
+    "tool": "create_ticket",
+    "args_template": {
+      "title": "{K}: deploy migration",
+      "description": "run_session={SESSION}",
+      "priority": "normal"
+    },
+    "mismatch": {
+      "field": "priority",
+      "altered_value": "urgent"
+    }
+  }
+}

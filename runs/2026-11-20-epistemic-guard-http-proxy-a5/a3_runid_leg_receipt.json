@@ -1,0 +1,88 @@
+{
+  "body_text": "{\"aer1\":{\"canonical_bytes\":\"eyJjYWxsZXIiOnsiaWQiOiJodHRwLW1jcC0xLTM5YTQzODdiIiwic2Vzc2lvbl9pZCI6ImxyLXByb3h5LXNlc3Npb24tYTUiLCJ0eXBlIjoiY2FsbCJ9LCJpbnB1dHMiOnsiZGVzY3JpcHRpb24iOiJydW5fc2Vzc2lvbj1sci0zMzA4YWRiNWRjLWExIiwicHJpb3JpdHkiOiJub3JtYWwiLCJ0aXRsZSI6ImxyLW9wLTMzMDhhZGI1ZGMtYTE6IGRlcGxveSBtaWdyYXRpb24ifSwiaXNzdWVyX2NsYWltcyI6eyJwcm92ZW5hbmNlX2NsYXNzIjoiRVhFQ1VURUQgQlkgRVBJU1RFTUlDLUdVQVJEIn0sIm91dHB1dCI6eyJ0ZXh0Ijoie1wiY3JlYXRlZF9hdFwiOiBcIjIwMjYtMTEtMjBUMTU6MTQ6MjkuMTE5NzI3WlwiLCBcImRlc2NyaXB0aW9uXCI6IFwicnVuX3Nlc3Npb249bHItMzMwOGFkYjVkYy1hMVwiLCBcImlkXCI6IFwiVC0xXCIsIFwicHJpb3JpdHlcIjogXCJub3JtYWxcIiwgXCJ0aXRsZVwiOiBcImxyLW9wLTMzMDhhZGI1ZGMtYTE6IGRlcGxveSBtaWdyYXRpb25cIiwgXCJ2ZXJzaW9uXCI6IDF9In0sInJlY2VpcHRfc2NoZW1hX3ZlcnNpb24iOiIwLjQiLCJ0b29sIjp7Im5hbWUiOiJjcmVhdGVfdGlja2V0Iiwic2NvcGUiOiJsb2NhbCIsInZlcnNpb24iOiIwLjYuMCJ9fQ==\",\"created_at\":\"2026-11-20T15:14:29.123329+00:00\",\"id\":\"71a9f87b-0017-47a2-8de8-84cf3f6d8d28\",\"input_hash\":\"sha256:9d348ec5a615d0c7be860a56c763cb233c05bbd4cad548c23a7cfc9e57af29dc\",\"metadata_hash\":\"sha256:96e57710f3e6d74d211a6b40c4a369636ccfe446cf710ad1db404fd44eecf52b\",\"output_hash\":\"sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707\",\"provenance_class\":\"EXECUTED BY EPISTEMIC-GUARD\",\"receipt_schema_version\":\"0.4\",\"steps\":[{\"completed_at\":\"2026-11-20T15:14:29.123329+00:00\",\"status\":\"success\",\"tool\":\"create_ticket\"}],\"tool\":{\"name\":\"create_ticket\",\"scope\":\"local\",\"version\":\"0.6.0\"},\"verification_status\":\"verified\"},\"aer1_output_hash\":\"sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707\",\"cached_rpc_result\":{\"id\":\"e863f1f5946144668825c82b3fb14555\",\"jsonrpc\":\"2.0\",\"result\":{\"content\":[{\"text\":\"{\\\"created_at\\\": \\\"2026-11-20T15:14:29.119727Z\\\", \\\"description\\\": \\\"run_session=lr-3308adb5dc-a1\\\", \\\"id\\\": \\\"T-1\\\", \\\"priority\\\": \\\"normal\\\", \\\"title\\\": \\\"lr-op-3308adb5dc-a1: deploy migration\\\", \\\"version\\\": 1}\",\"type\":\"text\"}],\"isError\":false,\"structuredContent\":{\"created_at\":\"2026-11-20T15:14:29.119727Z\",\"description\":\"run_session=lr-3308adb5dc-a1\",\"id\":\"T-1\",\"priority\":\"normal\",\"title\":\"lr-op-3308adb5dc-a1: deploy migration\",\"version\":1}}},\"call_id\":\"http-mcp-1-39a4387b\",\"executed\":true,\"merkle_root\":\"3db41dc6b359962617dc0fcf4687d7521555d42d54dd217ae56fed99456de068\",\"ok\":true,\"operation_key\":\"http-mcp-1-39a4387b\",\"output\":\"{\\\"created_at\\\": \\\"2026-11-20T15:14:29.119727Z\\\", \\\"description\\\": \\\"run_session=lr-3308adb5dc-a1\\\", \\\"id\\\": \\\"T-1\\\", \\\"priority\\\": \\\"normal\\\", \\\"title\\\": \\\"lr-op-3308adb5dc-a1: deploy migration\\\", \\\"version\\\": 1}\",\"output_sha256\":\"fc60ef7f2e291165dee5e26f1e02f1c61dff282fe6dd4f0f243d1dfeac21beb1\",\"receipt\":{\"args\":{\"description\":\"run_session=lr-3308adb5dc-a1\",\"priority\":\"normal\",\"title\":\"lr-op-3308adb5dc-a1: deploy migration\"},\"call_id\":\"http-mcp-1-39a4387b\",\"error_code\":\"\",\"executed\":true,\"ok\":true,\"output\":\"{\\\"created_at\\\": \\\"2026-11-20T15:14:29.119727Z\\\", \\\"description\\\": \\\"run_session=lr-3308adb5dc-a1\\\", \\\"id\\\": \\\"T-1\\\", \\\"priority\\\": \\\"normal\\\", \\\"title\\\": \\\"lr-op-3308adb5dc-a1: deploy migration\\\", \\\"version\\\": 1}\",\"output_sha256\":\"fc60ef7f2e291165dee5e26f1e02f1c61dff282fe6dd4f0f243d1dfeac21beb1\",\"session_id\":\"lr-proxy-session-a5\",\"signature\":\"ed25519:NUqLe2t59PifZEnyTCAUfKoOigjUoNTN500cVP5eeHdI6biK8zb7sik78rA84qXZTAubHUJKp53BqxoiagVrBA==\",\"timestamp_utc\":\"2026-11-20T15:14:29.123329+00:00\",\"tool\":\"create_ticket\"},\"status\":\"committed\",\"tool\":\"create_ticket\"}",
+  "digests": {
+    "output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707"
+  },
+  "fetched_at": "2026-11-20T15:14:29.325851Z",
+  "http_status": 200,
+  "recomputation": {
+    "recomputed_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+    "served_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+    "status": "matched"
+  },
+  "record_id": "http-mcp-1-39a4387b",
+  "record_json": {
+    "aer1": {
+      "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJodHRwLW1jcC0xLTM5YTQzODdiIiwic2Vzc2lvbl9pZCI6ImxyLXByb3h5LXNlc3Npb24tYTUiLCJ0eXBlIjoiY2FsbCJ9LCJpbnB1dHMiOnsiZGVzY3JpcHRpb24iOiJydW5fc2Vzc2lvbj1sci0zMzA4YWRiNWRjLWExIiwicHJpb3JpdHkiOiJub3JtYWwiLCJ0aXRsZSI6ImxyLW9wLTMzMDhhZGI1ZGMtYTE6IGRlcGxveSBtaWdyYXRpb24ifSwiaXNzdWVyX2NsYWltcyI6eyJwcm92ZW5hbmNlX2NsYXNzIjoiRVhFQ1VURUQgQlkgRVBJU1RFTUlDLUdVQVJEIn0sIm91dHB1dCI6eyJ0ZXh0Ijoie1wiY3JlYXRlZF9hdFwiOiBcIjIwMjYtMTEtMjBUMTU6MTQ6MjkuMTE5NzI3WlwiLCBcImRlc2NyaXB0aW9uXCI6IFwicnVuX3Nlc3Npb249bHItMzMwOGFkYjVkYy1hMVwiLCBcImlkXCI6IFwiVC0xXCIsIFwicHJpb3JpdHlcIjogXCJub3JtYWxcIiwgXCJ0aXRsZVwiOiBcImxyLW9wLTMzMDhhZGI1ZGMtYTE6IGRlcGxveSBtaWdyYXRpb25cIiwgXCJ2ZXJzaW9uXCI6IDF9In0sInJlY2VpcHRfc2NoZW1hX3ZlcnNpb24iOiIwLjQiLCJ0b29sIjp7Im5hbWUiOiJjcmVhdGVfdGlja2V0Iiwic2NvcGUiOiJsb2NhbCIsInZlcnNpb24iOiIwLjYuMCJ9fQ==",
+      "created_at": "2026-11-20T15:14:29.123329+00:00",
+      "id": "71a9f87b-0017-47a2-8de8-84cf3f6d8d28",
+      "input_hash": "sha256:9d348ec5a615d0c7be860a56c763cb233c05bbd4cad548c23a7cfc9e57af29dc",
+      "metadata_hash": "sha256:96e57710f3e6d74d211a6b40c4a369636ccfe446cf710ad1db404fd44eecf52b",
+      "output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+      "provenance_class": "EXECUTED BY EPISTEMIC-GUARD",
+      "receipt_schema_version": "0.4",
+      "steps": [
+        {
+          "completed_at": "2026-11-20T15:14:29.123329+00:00",
+          "status": "success",
+          "tool": "create_ticket"
+        }
+      ],
+      "tool": {
+        "name": "create_ticket",
+        "scope": "local",
+        "version": "0.6.0"
+      },
+      "verification_status": "verified"
+    },
+    "aer1_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+    "cached_rpc_result": {
+      "id": "e863f1f5946144668825c82b3fb14555",
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"created_at\": \"2026-11-20T15:14:29.119727Z\", \"description\": \"run_session=lr-3308adb5dc-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-3308adb5dc-a1: deploy migration\", \"version\": 1}",
+            "type": "text"
+          }
+        ],
+        "isError": false,
+        "structuredContent": {
+          "created_at": "2026-11-20T15:14:29.119727Z",
+          "description": "run_session=lr-3308adb5dc-a1",
+          "id": "T-1",
+          "priority": "normal",
+          "title": "lr-op-3308adb5dc-a1: deploy migration",
+          "version": 1
+        }
+      }
+    },
+    "call_id": "http-mcp-1-39a4387b",
+    "executed": true,
+    "merkle_root": "3db41dc6b359962617dc0fcf4687d7521555d42d54dd217ae56fed99456de068",
+    "ok": true,
+    "operation_key": "http-mcp-1-39a4387b",
+    "output": "{\"created_at\": \"2026-11-20T15:14:29.119727Z\", \"description\": \"run_session=lr-3308adb5dc-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-3308adb5dc-a1: deploy migration\", \"version\": 1}",
+    "output_sha256": "fc60ef7f2e291165dee5e26f1e02f1c61dff282fe6dd4f0f243d1dfeac21beb1",
+    "receipt": {
+      "args": {
+        "description": "run_session=lr-3308adb5dc-a1",
+        "priority": "normal",
+        "title": "lr-op-3308adb5dc-a1: deploy migration"
+      },
+      "call_id": "http-mcp-1-39a4387b",
+      "error_code": "",
+      "executed": true,
+      "ok": true,
+      "output": "{\"created_at\": \"2026-11-20T15:14:29.119727Z\", \"description\": \"run_session=lr-3308adb5dc-a1\", \"id\": \"T-1\", \"priority\": \"normal\", \"title\": \"lr-op-3308adb5dc-a1: deploy migration\", \"version\": 1}",
+      "output_sha256": "fc60ef7f2e291165dee5e26f1e02f1c61dff282fe6dd4f0f243d1dfeac21beb1",
+      "session_id": "lr-proxy-session-a5",
+      "signature": "ed25519:NUqLe2t59PifZEnyTCAUfKoOigjUoNTN500cVP5eeHdI6biK8zb7sik78rA84qXZTAubHUJKp53BqxoiagVrBA==",
+      "timestamp_utc": "2026-11-20T15:14:29.123329+00:00",
+      "tool": "create_ticket"
+    },
+    "status": "committed",
+    "tool": "create_ticket"
+  },
+  "url": "http://127.0.0.1:47411/receipts/http-mcp-1-39a4387b"
+}

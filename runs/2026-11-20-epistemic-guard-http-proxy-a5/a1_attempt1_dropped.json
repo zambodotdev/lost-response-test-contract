@@ -1,0 +1,25 @@
+{
+  "K": "lr-op-3308adb5dc-a1",
+  "arguments_sent": {
+    "description": "run_session=lr-3308adb5dc-a1",
+    "priority": "normal",
+    "title": "lr-op-3308adb5dc-a1: deploy migration"
+  },
+  "at": "2026-11-20T15:14:29.125480Z",
+  "call": {
+    "dropped": true,
+    "note": "Full HTTP response read off the wire so the upstream execution and proxy receipt commit completed, then discarded client-side. No body, receipt id, or digest from attempt 1 is retained.",
+    "transport": {
+      "content_type": "application/json",
+      "elapsed_ms": 36,
+      "http_status": 200,
+      "method": "POST",
+      "received_at": "2026-11-20T15:14:29.125461Z",
+      "response_bytes": 560,
+      "sent_at": "2026-11-20T15:14:29.089509Z",
+      "url": "http://127.0.0.1:47411/mcp"
+    }
+  },
+  "label": "a1_attempt1_dropped",
+  "session_id": "lr-3308adb5dc-a1"
+}

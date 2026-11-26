@@ -1,0 +1,86 @@
+{
+  "assertion": "A5",
+  "build": "epistemic-guard 0.6.5 at 732c551 (includes 1540956 prev_log seeding on rotation); planted on 1540956",
+  "delayed_leg_run_at": "2026-11-24T01:02:57.486352Z",
+  "legs": {
+    "k_only_direct_lookup": {
+      "artifact": "a5_delayed_konly_lookup.json",
+      "committed_digest": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+      "digest_equal": true,
+      "digest_served": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+      "http_status": 200,
+      "recomputation": {
+        "recomputed_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+        "served_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+        "status": "matched"
+      }
+    },
+    "run_id": {
+      "artifact": "a5_delayed_runid_receipt.json",
+      "committed_digest": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+      "digest_equal": true,
+      "digest_served": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+      "http_status": 200,
+      "recomputation": {
+        "recomputed_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+        "served_output_hash": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+        "status": "matched"
+      }
+    }
+  },
+  "plant": {
+    "K": "lr-op-c814f1e57c-a1",
+    "adapter": "epistemic_guard",
+    "adapter_config": {
+      "args_template": {
+        "description": "run_session={SESSION}",
+        "priority": "normal",
+        "title": "{K}: deploy migration"
+      },
+      "backend_url": "http://127.0.0.1:47410",
+      "mcp_url": "http://127.0.0.1:47411/mcp",
+      "mismatch": {
+        "altered_value": "urgent",
+        "field": "priority"
+      },
+      "mode": "epistemic_guard_http_proxy",
+      "receipt_base_url": "http://127.0.0.1:47411",
+      "tool": "create_ticket"
+    },
+    "assertion": "A5",
+    "committed_digest": "sha256:a553ac4d064934a3d399483dc27e35a14c8f08421d1b156fc62e80e32607cce7",
+    "delay_hours": 24,
+    "due_at": "2026-11-23T22:13:09.408082Z",
+    "endpoint": "http://127.0.0.1:47411/mcp",
+    "execution_receipt_ids": [
+      "http-mcp-1-19c080e1"
+    ],
+    "note": "Delayed leg: run this harness with --delayed-leg on this file at or after due_at. The delay is measured from the original commit time (planted_at approximates it within the run; the exact attempt 1 send time is in a1_attempt1_dropped.json).",
+    "planted_at": "2026-11-22T22:13:09.408075Z",
+    "session_id": "lr-c814f1e57c-a1",
+    "system_name": "epistemic-guard v0.6.0 McpStreamableHttpProxy in front of unmodified naive MCP provider"
+  },
+  "protection": {
+    "after_artifact": "count_a5_delayed_after.json",
+    "backend_count_after": 1,
+    "backend_count_before": 1,
+    "before_artifact": "count_a5_delayed_before.json",
+    "identical_retry": {
+      "artifact": "a5_delayed_retry_identical.json",
+      "http_status": 200,
+      "response_class": "success"
+    },
+    "mismatched_retry": {
+      "artifact": "a5_delayed_retry_mismatched.json",
+      "http_status": 409,
+      "response_class": "jsonrpc_error:-32602"
+    },
+    "new_effects_during_post_fix_retries": 0,
+    "pre_fix_recount_note": "",
+    "score": "pass"
+  },
+  "protection_score": "pass",
+  "reason": "Delayed leg run 2026-11-24T01:02:57Z, about 26.8h after the plant. K-only recovery passes (HTTP 200, served digest equals committed digest, output_hash recomputation matched); run-id leg passes separately. Backend effect count 1 -> 1 across the delayed retries: identical retry replayed (success), mismatched retry refused (jsonrpc_error:-32602, HTTP 409).",
+  "recovery_score": "pass",
+  "score": "pass"
+}

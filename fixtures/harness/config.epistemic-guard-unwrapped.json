@@ -1,0 +1,21 @@
+{
+  "adapter": "epistemic_guard",
+  "system_name": "Unmodified naive MCP provider (unwrapped control)",
+  "a5_delay_hours": 24,
+  "adapter_config": {
+    "mode": "unwrapped_control",
+    "mcp_url": "http://127.0.0.1:47410/mcp",
+    "backend_url": "http://127.0.0.1:47410",
+    "receipt_base_url": null,
+    "tool": "create_ticket",
+    "args_template": {
+      "title": "{K}: deploy migration",
+      "description": "run_session={SESSION}",
+      "priority": "normal"
+    },
+    "mismatch": {
+      "field": "priority",
+      "altered_value": "urgent"
+    }
+  }
+}

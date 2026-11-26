@@ -1,0 +1,33 @@
+{
+  "K": "lr-op-11d26bb926-a1",
+  "adapter": "epistemic_guard",
+  "adapter_config": {
+    "args_template": {
+      "description": "run_session={SESSION}",
+      "priority": "normal",
+      "title": "{K}: deploy migration"
+    },
+    "backend_url": "http://127.0.0.1:47410",
+    "mcp_url": "http://127.0.0.1:47410/mcp",
+    "mismatch": {
+      "altered_value": "urgent",
+      "field": "priority"
+    },
+    "mode": "unwrapped_control",
+    "receipt_base_url": null,
+    "tool": "create_ticket"
+  },
+  "assertion": "A5",
+  "committed_digest": null,
+  "delay_hours": 24,
+  "due_at": "2026-11-21T14:11:24.084952Z",
+  "endpoint": "http://127.0.0.1:47410/mcp",
+  "execution_receipt_ids": [
+    "T-1",
+    "T-2"
+  ],
+  "note": "Delayed leg: run this harness with --delayed-leg on this file at or after due_at. The delay is measured from the original commit time (planted_at approximates it within the run; the exact attempt 1 send time is in a1_attempt1_dropped.json).",
+  "planted_at": "2026-11-20T14:11:24.084944Z",
+  "session_id": "lr-11d26bb926-a1",
+  "system_name": "Unmodified naive MCP provider (unwrapped control)"
+}

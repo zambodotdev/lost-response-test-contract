@@ -1,0 +1,23 @@
+{
+  "K": "lr-op-3308adb5dc-a1",
+  "at": "2026-11-20T15:14:29.199265Z",
+  "attributed_records": [
+    {
+      "counted_as_execution": true,
+      "priority": "normal",
+      "ticket_id": "T-1",
+      "title": "lr-op-3308adb5dc-a1: deploy migration"
+    }
+  ],
+  "backend_ticket_ids": [
+    "T-1"
+  ],
+  "execution_record_ids": [
+    "http-mcp-1-39a4387b"
+  ],
+  "external_effect_count": 1,
+  "label": "a1_final",
+  "listing_http_status": 200,
+  "method": "GET <backend_url>/tickets?title_prefix=<K> directly against the independent SQLite provider (bypassing MCP and epistemic-guard). external_effect_count is strictly the number of provider SQLite rows created for (session_id, K).",
+  "session_id": "lr-3308adb5dc-a1"
+}

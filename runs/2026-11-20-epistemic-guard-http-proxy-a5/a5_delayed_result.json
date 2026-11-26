@@ -1,0 +1,85 @@
+{
+  "assertion": "A5",
+  "delayed_leg_run_at": "2026-11-22T20:47:03.281438Z",
+  "legs": {
+    "k_only_direct_lookup": {
+      "artifact": "a5_delayed_konly_lookup.json",
+      "committed_digest": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+      "digest_equal": true,
+      "digest_served": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+      "http_status": 200,
+      "recomputation": {
+        "recomputed_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+        "served_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+        "status": "matched"
+      }
+    },
+    "run_id": {
+      "artifact": "a5_delayed_runid_receipt.json",
+      "committed_digest": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+      "digest_equal": true,
+      "digest_served": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+      "http_status": 200,
+      "recomputation": {
+        "recomputed_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+        "served_output_hash": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+        "status": "matched"
+      }
+    }
+  },
+  "plant": {
+    "K": "lr-op-3308adb5dc-a1",
+    "adapter": "epistemic_guard",
+    "adapter_config": {
+      "args_template": {
+        "description": "run_session={SESSION}",
+        "priority": "normal",
+        "title": "{K}: deploy migration"
+      },
+      "backend_url": "http://127.0.0.1:47410",
+      "mcp_url": "http://127.0.0.1:47411/mcp",
+      "mismatch": {
+        "altered_value": "urgent",
+        "field": "priority"
+      },
+      "mode": "epistemic_guard_http_proxy",
+      "receipt_base_url": "http://127.0.0.1:47411",
+      "tool": "create_ticket"
+    },
+    "assertion": "A5",
+    "committed_digest": "sha256:76722df95ebd75413908d1609209c7075abf0df970ce798f76250046e53e6707",
+    "delay_hours": 24,
+    "due_at": "2026-11-21T15:14:29.342394Z",
+    "endpoint": "http://127.0.0.1:47411/mcp",
+    "execution_receipt_ids": [
+      "http-mcp-1-39a4387b"
+    ],
+    "note": "Delayed leg: run this harness with --delayed-leg on this file at or after due_at. The delay is measured from the original commit time (planted_at approximates it within the run; the exact attempt 1 send time is in a1_attempt1_dropped.json).",
+    "planted_at": "2026-11-20T15:14:29.342386Z",
+    "session_id": "lr-3308adb5dc-a1",
+    "system_name": "epistemic-guard v0.6.0 McpStreamableHttpProxy in front of unmodified naive MCP provider"
+  },
+  "protection": {
+    "after_artifact": "count_a5_delayed_after.json",
+    "backend_count_after": 2,
+    "backend_count_before": 2,
+    "before_artifact": "count_a5_delayed_before.json",
+    "identical_retry": {
+      "artifact": "a5_delayed_retry_identical.json",
+      "http_status": 200,
+      "response_class": "success"
+    },
+    "mismatched_retry": {
+      "artifact": "a5_delayed_retry_mismatched.json",
+      "http_status": 409,
+      "response_class": "jsonrpc_error:-32602"
+    },
+    "new_effects_during_post_fix_retries": 0,
+    "pre_fix_recount_note": "First rotated delayed-retry attempt on unpatched --prev-log exposed a real bug where ReceiptLogWriter verified prev_chain_sha256 without seeding _op_index/_id_index from prev_log_path, inserting T-3 (1 -> 2). After fixing ReceiptLogWriter on v0.6.5-dev, post-fix delayed identical + mismatched retries produced 0 new effects (2 -> 2).",
+    "score": "fail_pre_fix_fixed_on_retest"
+  },
+  "protection_score": "fail_pre_fix_fixed_on_retest",
+  "reason": "Recovery passes first-hand via K-only lookup (HTTP 200, full AER-1 body, matched Section 6 output_hash recomputation). Delayed retry protection caught a real --prev-log rotation bug (1 -> 2, T-3 inserted); after fixing ReceiptLogWriter to seed _op_index/_id_index from prev_log_path, post-fix delayed retries produced 0 new effects (2 -> 2, identical=success, mismatched=jsonrpc_error:-32602).",
+  "recovery_score": "pass",
+  "score": "partial_recovery_pass_protection_fixed_needs_fresh_24h_plant"
+}
