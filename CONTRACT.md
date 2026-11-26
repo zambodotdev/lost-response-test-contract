@@ -1,7 +1,7 @@
 # Test Contract: Lost-Response Recovery
 
-Draft, under joint review. This is the starting text, open for joint
-revision before any run counts.
+Frozen on 2026-11-25, with the two A5 wording updates below, agreed
+on PR #6. Runs recorded after the freeze are scored under this text.
 
 ## Common setup (A1 to A5)
 
@@ -94,12 +94,25 @@ outputs, not summaries.
   the contract before running). The delay is measured from the original
   commit time.
 - Pass condition: recovery still succeeds and the digest still confirms;
-  a lookup miss inside the window is a fail, not a fresh operation.
+  a lookup miss inside the window is never a fresh operation, and it
+  scores under the A5 recovery scoring rule below.
   During the delay period the operation identity remains protected
   against fresh execution, including when a delayed retry uses modified
   parameters.
 - Basis: a record store pruning faster than clients can retry recreates
   the ambiguity this contract tests.
+- A5 recovery scoring. If no independently recorded committed digest
+  is available, score recovery as `unproven` and retain any
+  operation-key lookup miss in the evidence. If that digest is
+  available, a confirmed operation-key lookup miss within the
+  retention window scores recovery as `fail`.
+- A5 retry protection. The run must include records of both delayed
+  retries (one with identical arguments and one with the configured
+  argument changed), plus effect counts recorded before and after the
+  retries. The run must disclose how the harness or probe produced
+  those records. The scorer reads the records without issuing
+  retries. If any required record is missing, score retry protection
+  as `unproven`.
 
 ## Second fault case: the persistence gap (tracked separately)
 
