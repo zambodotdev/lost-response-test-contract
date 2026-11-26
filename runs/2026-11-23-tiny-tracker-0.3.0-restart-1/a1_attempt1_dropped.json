@@ -1,0 +1,33 @@
+{
+  "K": "lr-op-42514abd5d-a1",
+  "arguments_sent": {
+    "description": "lost-response harness, session lr-42514abd5d-a1",
+    "idempotency_key": "lr-op-42514abd5d-a1",
+    "priority": 3,
+    "title": "lr-op-42514abd5d-a1 lost-response probe"
+  },
+  "at": "2026-11-23T18:11:06.348927Z",
+  "call": {
+    "dropped": true,
+    "fault": {
+      "fallback_used": false,
+      "fired": false,
+      "mode": "client",
+      "server_fault": null
+    },
+    "note": "Response read off the wire in full (the call had finished and committed on the server), then discarded client-side. No result, ticket id, or digest from this attempt is available to the caller.",
+    "transport": {
+      "content_type": "text/event-stream",
+      "elapsed_ms": 22,
+      "http_status": 200,
+      "jsonrpc_id": "97faaea598ed4b05bee9152e26700bc1",
+      "method": "POST",
+      "received_at": "2026-11-23T18:11:06.348886Z",
+      "response_bytes": 1179,
+      "sent_at": "2026-11-23T18:11:06.326392Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  },
+  "label": "a1_attempt1_dropped",
+  "session_id": "lr-42514abd5d-a1"
+}

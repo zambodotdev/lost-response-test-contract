@@ -1,0 +1,60 @@
+{
+  "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+  "legs": {
+    "k_only": {
+      "K": "lr-op-42514abd5d-a1",
+      "attempts": [
+        {
+          "digest_recomputation": {
+            "alg": "sha-256",
+            "canonical_bytes_are_rfc8785": true,
+            "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+            "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+            "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+            "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+            "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+            "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+            "status": "matched"
+          },
+          "digest_returned": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+          "execution_fetched_with": "tools/call get_execution {id}",
+          "execution_id": "X-1",
+          "note": "self-attested: the driver at 92bf1ba takes the committed digest as the recovered digest on a found attempt without comparing (driver ask (b)); this attempt's own digest is digest_returned",
+          "operation_result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+          "operation_state": "completed",
+          "path": "tools/call get_operation {idempotency_key: K} (fresh session, no run tag)",
+          "record_ids_returned": [
+            "X-1"
+          ],
+          "response_class": "found",
+          "self_attested": true
+        }
+      ],
+      "reason": "recovered digest equals committed digest using only K",
+      "score": "pass"
+    },
+    "run_id": {
+      "digests_served": {
+        "result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4"
+      },
+      "http_status": 200,
+      "note": "Section 9 resolution returned the unaltered record from the public JSON record; Section 6 recomputation is the harness's own SHA-256 over the decoded canonical bytes compared with the served output_hash, recorded in the recomputation block.",
+      "page_http_status": null,
+      "receipt_id": "X-1",
+      "recomputation": {
+        "alg": "sha-256",
+        "canonical_bytes_are_rfc8785": true,
+        "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+        "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+        "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+        "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+        "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "status": "matched"
+      },
+      "score": "pass"
+    }
+  },
+  "reason": "contract pass condition is the K-only leg: recovered digest equals committed digest using only K; run-id leg scored pass separately in the evidence",
+  "score": "pass"
+}

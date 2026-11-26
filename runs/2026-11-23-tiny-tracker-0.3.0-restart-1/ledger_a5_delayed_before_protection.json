@@ -1,0 +1,31 @@
+{
+  "body_json": {
+    "entries": [
+      {
+        "at": "2026-11-24T16:14:47.299Z",
+        "boot_id": "889b99f5738a5ad6",
+        "clock_offset_ms": 0,
+        "entry": "ledger-entry/1",
+        "execution_id": null,
+        "fault": null,
+        "kind": "start",
+        "objects": [],
+        "operation_tag": null,
+        "principal": null,
+        "request": null,
+        "run": null,
+        "seq": 1,
+        "status": null
+      }
+    ],
+    "next_after": null,
+    "principal": "p-default"
+  },
+  "body_text": "{\"principal\":\"p-default\",\"entries\":[{\"entry\":\"ledger-entry/1\",\"seq\":1,\"at\":\"2026-11-24T16:14:47.299Z\",\"clock_offset_ms\":0,\"boot_id\":\"889b99f5738a5ad6\",\"kind\":\"start\",\"principal\":null,\"run\":null,\"operation_tag\":null,\"request\":null,\"status\":null,\"execution_id\":null,\"objects\":[],\"fault\":null}],\"next_after\":null}",
+  "content_type": "application/json",
+  "fetched_at": "2026-11-24T18:34:52.492124Z",
+  "headers": {},
+  "http_status": 200,
+  "method": "GET",
+  "url": "http://127.0.0.1:4711/ledger"
+}

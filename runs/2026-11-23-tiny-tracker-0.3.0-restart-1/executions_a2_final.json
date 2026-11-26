@@ -1,0 +1,72 @@
+{
+  "body_json": {
+    "executions": [
+      {
+        "boot_id": "7733a896c1739d42",
+        "clock_offset_ms": 0,
+        "committed_at": "2026-11-23T18:11:06.337Z",
+        "id": "X-1",
+        "objects": [
+          {
+            "id": "T-1",
+            "type": "ticket"
+          }
+        ],
+        "operation_tag": "lr-42514abd5d-a1",
+        "principal": "p-default",
+        "record": "execution-record/1",
+        "request": {
+          "fingerprint_hash": "66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867",
+          "key": "lr-op-42514abd5d-a1",
+          "method": "POST",
+          "path": "/tickets"
+        },
+        "result": {
+          "alg": "sha-256",
+          "canonical": "{\"ticket\":{\"assignee\":null,\"comments\":[],\"created_at\":\"2026-11-23T18:11:06.337Z\",\"description\":\"lost-response harness, session lr-42514abd5d-a1\",\"details\":{\"component\":null,\"severity\":null},\"id\":\"T-1\",\"labels\":[],\"priority\":3,\"project\":\"inbox\",\"status\":\"open\",\"title\":\"lr-op-42514abd5d-a1 lost-response probe\",\"updated_at\":\"2026-11-23T18:11:06.337Z\",\"version\":1}}",
+          "digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+          "domain": "dev.writesafety.tiny-tracker/execution-result/1"
+        },
+        "run": null,
+        "seq": 1
+      },
+      {
+        "boot_id": "7733a896c1739d42",
+        "clock_offset_ms": 0,
+        "committed_at": "2026-11-23T18:11:06.357Z",
+        "id": "X-2",
+        "objects": [
+          {
+            "id": "T-2",
+            "type": "ticket"
+          }
+        ],
+        "operation_tag": "lr-42514abd5d-a2",
+        "principal": "p-default",
+        "record": "execution-record/1",
+        "request": {
+          "fingerprint_hash": "b8cd92443758ce4feecd2f9eddd35d69ae07619fce7664dbf357c2bc12496782",
+          "key": "lr-op-42514abd5d-a2",
+          "method": "POST",
+          "path": "/tickets"
+        },
+        "result": {
+          "alg": "sha-256",
+          "canonical": "{\"ticket\":{\"assignee\":null,\"comments\":[],\"created_at\":\"2026-11-23T18:11:06.357Z\",\"description\":\"lost-response harness, session lr-42514abd5d-a2\",\"details\":{\"component\":null,\"severity\":null},\"id\":\"T-2\",\"labels\":[],\"priority\":3,\"project\":\"inbox\",\"status\":\"open\",\"title\":\"lr-op-42514abd5d-a2 lost-response probe\",\"updated_at\":\"2026-11-23T18:11:06.357Z\",\"version\":1}}",
+          "digest": "01bb18d7b918de2b1261977bf56b5ca962dfae7450b7165aae860b2ad5c11a2c",
+          "domain": "dev.writesafety.tiny-tracker/execution-result/1"
+        },
+        "run": null,
+        "seq": 2
+      }
+    ],
+    "principal": "p-default"
+  },
+  "body_text": "{\"principal\":\"p-default\",\"executions\":[{\"record\":\"execution-record/1\",\"id\":\"X-1\",\"principal\":\"p-default\",\"run\":null,\"operation_tag\":\"lr-42514abd5d-a1\",\"boot_id\":\"7733a896c1739d42\",\"seq\":1,\"request\":{\"method\":\"POST\",\"path\":\"/tickets\",\"key\":\"lr-op-42514abd5d-a1\",\"fingerprint_hash\":\"66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867\"},\"objects\":[{\"type\":\"ticket\",\"id\":\"T-1\"}],\"result\":{\"alg\":\"sha-256\",\"domain\":\"dev.writesafety.tiny-tracker/execution-result/1\",\"canonical\":\"{\\\"ticket\\\":{\\\"assignee\\\":null,\\\"comments\\\":[],\\\"created_at\\\":\\\"2026-11-23T18:11:06.337Z\\\",\\\"description\\\":\\\"lost-response harness, session lr-42514abd5d-a1\\\",\\\"details\\\":{\\\"component\\\":null,\\\"severity\\\":null},\\\"id\\\":\\\"T-1\\\",\\\"labels\\\":[],\\\"priority\\\":3,\\\"project\\\":\\\"inbox\\\",\\\"status\\\":\\\"open\\\",\\\"title\\\":\\\"lr-op-42514abd5d-a1 lost-response probe\\\",\\\"updated_at\\\":\\\"2026-11-23T18:11:06.337Z\\\",\\\"version\\\":1}}\",\"digest\":\"66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4\"},\"committed_at\":\"2026-11-23T18:11:06.337Z\",\"clock_offset_ms\":0},{\"record\":\"execution-record/1\",\"id\":\"X-2\",\"principal\":\"p-default\",\"run\":null,\"operation_tag\":\"lr-42514abd5d-a2\",\"boot_id\":\"7733a896c1739d42\",\"seq\":2,\"request\":{\"method\":\"POST\",\"path\":\"/tickets\",\"key\":\"lr-op-42514abd5d-a2\",\"fingerprint_hash\":\"b8cd92443758ce4feecd2f9eddd35d69ae07619fce7664dbf357c2bc12496782\"},\"objects\":[{\"type\":\"ticket\",\"id\":\"T-2\"}],\"result\":{\"alg\":\"sha-256\",\"domain\":\"dev.writesafety.tiny-tracker/execution-result/1\",\"canonical\":\"{\\\"ticket\\\":{\\\"assignee\\\":null,\\\"comments\\\":[],\\\"created_at\\\":\\\"2026-11-23T18:11:06.357Z\\\",\\\"description\\\":\\\"lost-response harness, session lr-42514abd5d-a2\\\",\\\"details\\\":{\\\"component\\\":null,\\\"severity\\\":null},\\\"id\\\":\\\"T-2\\\",\\\"labels\\\":[],\\\"priority\\\":3,\\\"project\\\":\\\"inbox\\\",\\\"status\\\":\\\"open\\\",\\\"title\\\":\\\"lr-op-42514abd5d-a2 lost-response probe\\\",\\\"updated_at\\\":\\\"2026-11-23T18:11:06.357Z\\\",\\\"version\\\":1}}\",\"digest\":\"01bb18d7b918de2b1261977bf56b5ca962dfae7450b7165aae860b2ad5c11a2c\"},\"committed_at\":\"2026-11-23T18:11:06.357Z\",\"clock_offset_ms\":0}]}",
+  "content_type": "application/json",
+  "fetched_at": "2026-11-23T18:11:06.366837Z",
+  "headers": {},
+  "http_status": 200,
+  "method": "GET",
+  "url": "http://127.0.0.1:4711/executions"
+}

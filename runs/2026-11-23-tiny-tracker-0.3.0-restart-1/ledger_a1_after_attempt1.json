@@ -1,0 +1,57 @@
+{
+  "body_json": {
+    "entries": [
+      {
+        "at": "2026-11-23T18:11:05.834Z",
+        "boot_id": "7733a896c1739d42",
+        "clock_offset_ms": 0,
+        "entry": "ledger-entry/1",
+        "execution_id": null,
+        "fault": null,
+        "kind": "start",
+        "objects": [],
+        "operation_tag": null,
+        "principal": null,
+        "request": null,
+        "run": null,
+        "seq": 1,
+        "status": null
+      },
+      {
+        "at": "2026-11-23T18:11:06.337Z",
+        "boot_id": "7733a896c1739d42",
+        "clock_offset_ms": 0,
+        "entry": "ledger-entry/1",
+        "execution_id": "X-1",
+        "fault": null,
+        "kind": "execution",
+        "objects": [
+          {
+            "id": "T-1",
+            "type": "ticket"
+          }
+        ],
+        "operation_tag": "lr-42514abd5d-a1",
+        "principal": "p-default",
+        "request": {
+          "fingerprint_hash": "66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867",
+          "key": "lr-op-42514abd5d-a1",
+          "method": "POST",
+          "path": "/tickets"
+        },
+        "run": null,
+        "seq": 2,
+        "status": 201
+      }
+    ],
+    "next_after": null,
+    "principal": "p-default"
+  },
+  "body_text": "{\"principal\":\"p-default\",\"entries\":[{\"entry\":\"ledger-entry/1\",\"seq\":1,\"at\":\"2026-11-23T18:11:05.834Z\",\"clock_offset_ms\":0,\"boot_id\":\"7733a896c1739d42\",\"kind\":\"start\",\"principal\":null,\"run\":null,\"operation_tag\":null,\"request\":null,\"status\":null,\"execution_id\":null,\"objects\":[],\"fault\":null},{\"entry\":\"ledger-entry/1\",\"seq\":2,\"at\":\"2026-11-23T18:11:06.337Z\",\"clock_offset_ms\":0,\"boot_id\":\"7733a896c1739d42\",\"kind\":\"execution\",\"principal\":\"p-default\",\"run\":null,\"operation_tag\":\"lr-42514abd5d-a1\",\"request\":{\"method\":\"POST\",\"path\":\"/tickets\",\"key\":\"lr-op-42514abd5d-a1\",\"fingerprint_hash\":\"66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867\"},\"status\":201,\"execution_id\":\"X-1\",\"objects\":[{\"type\":\"ticket\",\"id\":\"T-1\"}],\"fault\":null}],\"next_after\":null}",
+  "content_type": "application/json",
+  "fetched_at": "2026-11-23T18:11:06.349896Z",
+  "headers": {},
+  "http_status": 200,
+  "method": "GET",
+  "url": "http://127.0.0.1:4711/ledger"
+}

@@ -1,0 +1,936 @@
+{
+  "adapter": "tiny_tracker",
+  "adapter_version": "0.2.0",
+  "at": "2026-11-23T18:11:06.305499Z",
+  "backend_url": "http://127.0.0.1:4711",
+  "build": {
+    "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+    "defects": {
+      "backend": [],
+      "mcp": []
+    },
+    "features": [
+      "durable",
+      "evidence",
+      "execution-records",
+      "inflight",
+      "ledger",
+      "lookup",
+      "principals",
+      "retention",
+      "strict-input"
+    ],
+    "start_command": "tiny-tracker all --features evidence,strict-input,ledger,durable,inflight,retention --data-dir <run-root>/run/data --token-dir <run-root>/run/tokens --port 4710 --backend-port 4711"
+  },
+  "build_descriptor": {
+    "body_json": {
+      "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+      "clock": {
+        "domain": "wall",
+        "offset_ms": 0
+      },
+      "config": {
+        "default_project": "inbox",
+        "deny_tools": null,
+        "key_journal": false,
+        "read_only": false,
+        "tools": null
+      },
+      "contract": {
+        "commit": "92bf1ba5f8226a67409fd8a7a68411b5c4a7258d",
+        "repo": "zambodotdev/lost-response-test-contract"
+      },
+      "control": {
+        "enabled": false
+      },
+      "defects": {
+        "backend": [],
+        "mcp": []
+      },
+      "descriptor": "build-descriptor/1",
+      "descriptor_hash": "654ecae3e1f7f62fbbcf141ef2fd6507e3bf72cbdef1975b995780ea24c16030",
+      "durability": {
+        "journal_format": "journal-format/1",
+        "mode": "journal"
+      },
+      "faults": {
+        "armed": []
+      },
+      "features": [
+        "durable",
+        "evidence",
+        "execution-records",
+        "inflight",
+        "ledger",
+        "lookup",
+        "principals",
+        "retention",
+        "strict-input"
+      ],
+      "fixture_api": "fixture-api/1",
+      "journal": {
+        "head": "0:cd6dbfc321bd5d4e"
+      },
+      "package": {
+        "name": "@mcp-write-safety/tiny-tracker",
+        "version": "0.3.0"
+      },
+      "process": {
+        "boot_id": "7733a896c1739d42",
+        "layout": "all",
+        "restart_count": 0,
+        "started_at": "2026-11-23T18:11:05.833Z"
+      },
+      "profile": "default",
+      "variants": []
+    },
+    "content_type": "application/json",
+    "fetched_at": "2026-11-23T18:11:06.324769Z",
+    "headers": {
+      "tiny-tracker-build": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91"
+    },
+    "http_status": 200,
+    "method": "GET",
+    "url": "http://127.0.0.1:4711/build"
+  },
+  "contract": {
+    "commit": "92bf1ba5f8226a67409fd8a7a68411b5c4a7258d",
+    "repo": "zambodotdev/lost-response-test-contract"
+  },
+  "control_url": null,
+  "evidence_principal": null,
+  "fault_mode": "client",
+  "initialize": {
+    "body": {
+      "id": "0f2b3385bce048dfb7d8e7f3805338e2",
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {
+            "listChanged": true
+          }
+        },
+        "instructions": "A small issue tracker. Read a ticket's version with get_ticket and pass it as expected_version when you write. Fixture build (build-descriptor/1; full descriptor at GET /build on the backend, evidence token): {\"build_hash\":\"406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91\",\"profile\":\"default\",\"features\":[\"durable\",\"evidence\",\"execution-records\",\"inflight\",\"ledger\",\"lookup\",\"principals\",\"retention\",\"strict-input\"],\"defects\":{\"mcp\":[],\"backend\":[]},\"variants\":[],\"faults_armed\":[],\"clock_offset_ms\":0,\"control\":false}",
+        "protocolVersion": "2025-11-25",
+        "serverInfo": {
+          "name": "tiny-tracker",
+          "version": "0.3.0"
+        }
+      }
+    },
+    "request": {
+      "id": "0f2b3385bce048dfb7d8e7f3805338e2",
+      "jsonrpc": "2.0",
+      "method": "initialize",
+      "params": {
+        "capabilities": {},
+        "clientInfo": {
+          "name": "lost-response-harness",
+          "version": "1.0.0"
+        },
+        "protocolVersion": "2025-11-25"
+      }
+    },
+    "transport": {
+      "content_type": "text/event-stream",
+      "elapsed_ms": 15,
+      "http_status": 200,
+      "jsonrpc_id": "0f2b3385bce048dfb7d8e7f3805338e2",
+      "method": "POST",
+      "received_at": "2026-11-23T18:11:06.320109Z",
+      "response_bytes": 818,
+      "sent_at": "2026-11-23T18:11:06.305513Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  },
+  "mcp_url": "http://127.0.0.1:4710/mcp",
+  "notifications_initialized": {
+    "request": {
+      "jsonrpc": "2.0",
+      "method": "notifications/initialized"
+    },
+    "transport": {
+      "content_type": null,
+      "elapsed_ms": 2,
+      "http_status": 202,
+      "jsonrpc_id": null,
+      "method": "POST",
+      "received_at": "2026-11-23T18:11:06.322072Z",
+      "response_bytes": 0,
+      "sent_at": "2026-11-23T18:11:06.320142Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  },
+  "tools_list": {
+    "body": {
+      "id": "65464a8f838044048e6f2ab47f57e7ea",
+      "jsonrpc": "2.0",
+      "result": {
+        "tools": [
+          {
+            "annotations": {
+              "openWorldHint": false,
+              "readOnlyHint": true
+            },
+            "description": "List all projects with their keys and names.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {},
+              "required": [],
+              "type": "object"
+            },
+            "name": "list_projects",
+            "title": "List projects"
+          },
+          {
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": false,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Create a new project. If a project with this key already exists, nothing is changed and you get an error. Pass an idempotency_key so that retrying after a lost answer is answered with the first result. A key is remembered for 7 days; repeat the same intended write with the same key.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "idempotency_key": {
+                  "description": "Your own unique key for this create. Sending the same call again with the same key creates nothing new and says it is a replay.",
+                  "maxLength": 128,
+                  "minLength": 8,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "type": "string"
+                },
+                "key": {
+                  "description": "Project key: lower-case letters, digits and dashes. Test runs use their run prefix, e.g. mwsc-<run>-a.",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+                  "type": "string"
+                },
+                "name": {
+                  "maxLength": 100,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "key",
+                "name"
+              ],
+              "type": "object"
+            },
+            "name": "create_project",
+            "title": "Create a project"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Delete a project that has no tickets. Delete its tickets first with delete_tickets. Projects carry no version the backend checks, so a delete made from a stale read is not detected.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "key": {
+                  "description": "Project key: lower-case letters, digits and dashes. Test runs use their run prefix, e.g. mwsc-<run>-a.",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "key"
+              ],
+              "type": "object"
+            },
+            "name": "delete_project",
+            "title": "Delete an empty project"
+          },
+          {
+            "annotations": {
+              "openWorldHint": false,
+              "readOnlyHint": true
+            },
+            "description": "List tickets, optionally filtered by project, status and title prefix.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "project": {
+                  "description": "Project key: lower-case letters, digits and dashes. Test runs use their run prefix, e.g. mwsc-<run>-a.",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                  ],
+                  "type": "string"
+                },
+                "title_prefix": {
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
+            "name": "list_tickets",
+            "title": "List tickets"
+          },
+          {
+            "annotations": {
+              "openWorldHint": false,
+              "readOnlyHint": true
+            },
+            "description": "Read one ticket with its labels (each with a stable label id), comments and current version.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            "name": "get_ticket",
+            "title": "Get a ticket"
+          },
+          {
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": false,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Create a ticket in a project (default: the server's default project). Pass an idempotency_key so that retrying after a lost answer does not create a second ticket. A key is remembered for 7 days; repeat the same intended write with the same key.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "assignee": {
+                  "description": "User name, or null to unassign.",
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "description": {
+                  "description": "Free text, up to 2000 characters; an empty string clears it.",
+                  "maxLength": 2000,
+                  "type": "string"
+                },
+                "details": {
+                  "additionalProperties": false,
+                  "description": "Nested details; an update sets only the sub-fields you name.",
+                  "properties": {
+                    "component": {
+                      "maxLength": 64,
+                      "minLength": 1,
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "severity": {
+                      "enum": [
+                        "low",
+                        "medium",
+                        "high",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "idempotency_key": {
+                  "description": "Your own unique key for this create. Sending the same call again with the same key creates nothing new and says it is a replay.",
+                  "maxLength": 128,
+                  "minLength": 8,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "type": "string"
+                },
+                "labels": {
+                  "items": {
+                    "maxLength": 32,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "maxItems": 20,
+                  "type": "array"
+                },
+                "priority": {
+                  "description": "1 (highest) to 5 (lowest).",
+                  "maximum": 5,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "project": {
+                  "description": "Project key: lower-case letters, digits and dashes. Test runs use their run prefix, e.g. mwsc-<run>-a.",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                  ],
+                  "type": "string"
+                },
+                "title": {
+                  "description": "Title, 1 to 200 characters.",
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title"
+              ],
+              "type": "object"
+            },
+            "name": "create_ticket",
+            "title": "Create a ticket"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Change only the fields you name; every other field keeps its value. Set assignee to null to unassign. Pass expected_version (from get_ticket): if the ticket changed since, nothing is written and you are told. force: true writes the named fields without that check; use it only when told to.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "assignee": {
+                  "description": "User name, or null to unassign.",
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "description": {
+                  "description": "Free text, up to 2000 characters; an empty string clears it.",
+                  "maxLength": 2000,
+                  "type": "string"
+                },
+                "details": {
+                  "additionalProperties": false,
+                  "description": "Nested details; an update sets only the sub-fields you name.",
+                  "properties": {
+                    "component": {
+                      "maxLength": 64,
+                      "minLength": 1,
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "severity": {
+                      "enum": [
+                        "low",
+                        "medium",
+                        "high",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "expected_version": {
+                  "description": "The version you read. If the object changed since, nothing is written and you get a conflict.",
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "force": {
+                  "description": "Write the named fields even if the ticket changed since you read it. Default false.",
+                  "type": "boolean"
+                },
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                },
+                "priority": {
+                  "description": "1 (highest) to 5 (lowest).",
+                  "maximum": 5,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                  ],
+                  "type": "string"
+                },
+                "title": {
+                  "description": "Title, 1 to 200 characters.",
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            "name": "update_ticket",
+            "title": "Update ticket fields"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Write all four fields (title, status, assignee, priority) at once, from a version you read. If the ticket changed since expected_version, nothing is written. force: true overwrites anyway; use it only when told to.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "assignee": {
+                  "description": "User name, or null to unassign.",
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "expected_version": {
+                  "description": "The version you read. If the object changed since, nothing is written and you get a conflict.",
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "force": {
+                  "description": "Overwrite even if the ticket changed. Default false.",
+                  "type": "boolean"
+                },
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                },
+                "priority": {
+                  "description": "1 (highest) to 5 (lowest).",
+                  "maximum": 5,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                  ],
+                  "type": "string"
+                },
+                "title": {
+                  "description": "Title, 1 to 200 characters.",
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "expected_version",
+                "title",
+                "status",
+                "assignee",
+                "priority"
+              ],
+              "type": "object"
+            },
+            "name": "replace_ticket",
+            "title": "Replace a ticket's fields"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Delete one ticket. Pass expected_version (from get_ticket): if the ticket changed since, nothing is deleted. force: true deletes without that check; use it only when told to.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "expected_version": {
+                  "description": "The version you read. If the object changed since, nothing is written and you get a conflict.",
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "force": {
+                  "description": "Delete even if the ticket changed since you read it. Default false.",
+                  "type": "boolean"
+                },
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            "name": "delete_ticket",
+            "title": "Delete a ticket"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Delete the tickets in one project that match a filter (status and/or title_prefix). With no filter nothing is deleted unless you also pass all: true. All-or-nothing.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "all": {
+                  "description": "Required to delete every ticket in the project when no filter is given.",
+                  "type": "boolean"
+                },
+                "project": {
+                  "description": "Project key: lower-case letters, digits and dashes. Test runs use their run prefix, e.g. mwsc-<run>-a.",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                  ],
+                  "type": "string"
+                },
+                "title_prefix": {
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project"
+              ],
+              "type": "object"
+            },
+            "name": "delete_tickets",
+            "title": "Delete matching tickets"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Close a ticket. The server first asks you to confirm (an input_required result); nothing is written until you retry with the confirmation.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            "name": "close_ticket",
+            "title": "Close a ticket (asks for confirmation)"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Set status and/or assignee on several tickets of one project. All-or-nothing: if any ticket cannot be updated, none is, and the result says which ticket stopped it.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "assignee": {
+                  "description": "User name, or null to unassign.",
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "ids": {
+                  "items": {
+                    "description": "Ticket id, e.g. T-12.",
+                    "pattern": "^T-[0-9]+$",
+                    "type": "string"
+                  },
+                  "maxItems": 50,
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "project": {
+                  "description": "Project key: lower-case letters, digits and dashes. Test runs use their run prefix, e.g. mwsc-<run>-a.",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project",
+                "ids"
+              ],
+              "type": "object"
+            },
+            "name": "bulk_update_tickets",
+            "title": "Update several tickets"
+          },
+          {
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": false,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Add a comment to a ticket. Returns the new comment's id. Pass an idempotency_key so that retrying after a lost answer does not post the comment twice. A key is remembered for 7 days; repeat the same intended write with the same key.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "body": {
+                  "maxLength": 5000,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                },
+                "idempotency_key": {
+                  "description": "Your own unique key for this create. Sending the same call again with the same key creates nothing new and says it is a replay.",
+                  "maxLength": 128,
+                  "minLength": 8,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "body"
+              ],
+              "type": "object"
+            },
+            "name": "add_comment",
+            "title": "Add a comment"
+          },
+          {
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Add one label to a ticket. Adding a label the ticket already has changes nothing. Returns the label's stable id.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                },
+                "name": {
+                  "maxLength": 32,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ],
+              "type": "object"
+            },
+            "name": "add_label",
+            "title": "Add a label"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Remove one label from a ticket by its label id (from get_ticket). The id stays valid when other labels change.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                },
+                "label_id": {
+                  "pattern": "^L-[0-9]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "label_id"
+              ],
+              "type": "object"
+            },
+            "name": "remove_label",
+            "title": "Remove a label"
+          },
+          {
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": false,
+              "readOnlyHint": false
+            },
+            "description": "Replace a ticket's whole label list with the names given; labels not listed are removed. Pass the expected_version you read; if the ticket changed since, nothing is written. force: true replaces the list without that check; use it only when told to. To add or remove one label, use add_label or remove_label.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "expected_version": {
+                  "description": "The version you read. If the object changed since, nothing is written and you get a conflict.",
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "force": {
+                  "description": "Replace the list even if the ticket changed. Default false.",
+                  "type": "boolean"
+                },
+                "id": {
+                  "description": "Ticket id, e.g. T-12.",
+                  "pattern": "^T-[0-9]+$",
+                  "type": "string"
+                },
+                "labels": {
+                  "items": {
+                    "maxLength": 32,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "maxItems": 20,
+                  "type": "array"
+                }
+              },
+              "required": [
+                "id",
+                "labels"
+              ],
+              "type": "object"
+            },
+            "name": "set_labels",
+            "title": "Replace all labels"
+          },
+          {
+            "annotations": {
+              "openWorldHint": false,
+              "readOnlyHint": true
+            },
+            "description": "Look up the write an idempotency_key identifies, among the writes made with your credentials: whether it was applied, the execution record that holds its committed result, and the result's digest. Changes nothing. When there is no record of the key, that does not mean nothing was written. A key is remembered for 7 days; repeat the same intended write with the same key.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "idempotency_key": {
+                  "description": "The idempotency_key the write was sent with.",
+                  "maxLength": 128,
+                  "minLength": 8,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "idempotency_key"
+              ],
+              "type": "object"
+            },
+            "name": "get_operation",
+            "title": "Look a write up by its idempotency key"
+          },
+          {
+            "annotations": {
+              "openWorldHint": false,
+              "readOnlyHint": true
+            },
+            "description": "Read one execution record (an id such as X-3, from get_operation): the write as committed, with the result's canonical bytes and their SHA-256 digest. Only records of writes made with your credentials are shown. Changes nothing.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "description": "Execution record id, e.g. X-3.",
+                  "pattern": "^X-[1-9][0-9]*$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            "name": "get_execution",
+            "title": "Read an execution record"
+          }
+        ]
+      }
+    },
+    "request": {
+      "id": "65464a8f838044048e6f2ab47f57e7ea",
+      "jsonrpc": "2.0",
+      "method": "tools/list",
+      "params": {}
+    },
+    "transport": {
+      "content_type": "text/event-stream",
+      "elapsed_ms": 2,
+      "http_status": 200,
+      "jsonrpc_id": "65464a8f838044048e6f2ab47f57e7ea",
+      "method": "POST",
+      "received_at": "2026-11-23T18:11:06.324041Z",
+      "response_bytes": 15268,
+      "sent_at": "2026-11-23T18:11:06.322106Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  }
+}

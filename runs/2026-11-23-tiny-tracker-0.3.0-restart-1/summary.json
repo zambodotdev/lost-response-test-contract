@@ -1,0 +1,177 @@
+{
+  "adapter": "tiny_tracker",
+  "assertions": {
+    "A1": {
+      "K": "lr-op-42514abd5d-a1",
+      "count_after_attempt1": 1,
+      "execution_receipt_ids": [
+        "X-1"
+      ],
+      "final_external_effect_count": 1,
+      "reason": "external effect count for the logical operation is exactly 1",
+      "retry_response_class": "success",
+      "score": "pass",
+      "session_id": "lr-42514abd5d-a1"
+    },
+    "A2": {
+      "K": "lr-op-42514abd5d-a2",
+      "count_after_attempt1": 1,
+      "execution_receipt_ids": [
+        "X-2"
+      ],
+      "final_external_effect_count": 1,
+      "mismatched_field": "priority",
+      "reason": "mismatched retry produced no new effect and was explicitly refused",
+      "retry_response_class": "tool_error:idempotency_key_reused",
+      "score": "pass",
+      "session_id": "lr-42514abd5d-a2"
+    },
+    "A3": {
+      "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "legs": {
+        "k_only": {
+          "K": "lr-op-42514abd5d-a1",
+          "attempts": [
+            {
+              "digest_recomputation": {
+                "alg": "sha-256",
+                "canonical_bytes_are_rfc8785": true,
+                "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+                "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+                "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+                "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+                "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+                "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+                "status": "matched"
+              },
+              "digest_returned": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+              "execution_fetched_with": "tools/call get_execution {id}",
+              "execution_id": "X-1",
+              "note": "self-attested: the driver at 92bf1ba takes the committed digest as the recovered digest on a found attempt without comparing (driver ask (b)); this attempt's own digest is digest_returned",
+              "operation_result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+              "operation_state": "completed",
+              "path": "tools/call get_operation {idempotency_key: K} (fresh session, no run tag)",
+              "record_ids_returned": [
+                "X-1"
+              ],
+              "response_class": "found",
+              "self_attested": true
+            }
+          ],
+          "reason": "recovered digest equals committed digest using only K",
+          "score": "pass"
+        },
+        "run_id": {
+          "digests_served": {
+            "result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4"
+          },
+          "http_status": 200,
+          "note": "Section 9 resolution returned the unaltered record from the public JSON record; Section 6 recomputation is the harness's own SHA-256 over the decoded canonical bytes compared with the served output_hash, recorded in the recomputation block.",
+          "page_http_status": null,
+          "receipt_id": "X-1",
+          "recomputation": {
+            "alg": "sha-256",
+            "canonical_bytes_are_rfc8785": true,
+            "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+            "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+            "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+            "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+            "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+            "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+            "status": "matched"
+          },
+          "score": "pass"
+        }
+      },
+      "reason": "contract pass condition is the K-only leg: recovered digest equals committed digest using only K; run-id leg scored pass separately in the evidence",
+      "score": "pass"
+    },
+    "A4": {
+      "reason": "every recorded retry resolved to the original outcome, a digest-verifiable record of it, or an explicit non-success state",
+      "response_classes": {
+        "A1_retry": "success",
+        "A2_retry": "tool_error:idempotency_key_reused"
+      },
+      "score": "pass",
+      "verdicts": {
+        "A1_retry": "success corresponding to a committed record (see the A1/A2 counts); not a generic success with no record",
+        "A2_retry": "explicit non-success state"
+      }
+    },
+    "A5": {
+      "due_at": "2026-11-24T18:11:06.374917Z",
+      "plant_file": "a5_plant.json",
+      "reason": "the 24 hour delayed leg cannot complete on the planting day; attempt 1 is planted with its commit timestamp recorded and the delayed leg is runnable later by run id and by K",
+      "score": "unproven"
+    }
+  },
+  "endpoint": "http://127.0.0.1:4710/mcp",
+  "finished_at": "2026-11-23T18:11:06.375031Z",
+  "initialize": {
+    "build": {
+      "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+      "defects": {
+        "backend": [],
+        "mcp": []
+      },
+      "features": [
+        "durable",
+        "evidence",
+        "execution-records",
+        "inflight",
+        "ledger",
+        "lookup",
+        "principals",
+        "retention",
+        "strict-input"
+      ],
+      "start_command": "tiny-tracker all --features evidence,strict-input,ledger,durable,inflight,retention --data-dir <run-root>/run/data --token-dir <run-root>/run/tokens --port 4710 --backend-port 4711"
+    },
+    "build_descriptor_status": 200,
+    "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+    "build_matches": true,
+    "clock": {
+      "domain": "wall",
+      "offset_ms": 0
+    },
+    "contract_commit_in_descriptor": "92bf1ba5f8226a67409fd8a7a68411b5c4a7258d",
+    "contract_commit_matches_adapter": true,
+    "defects": {
+      "backend": [],
+      "mcp": []
+    },
+    "descriptor_hash": "654ecae3e1f7f62fbbcf141ef2fd6507e3bf72cbdef1975b995780ea24c16030",
+    "evidence_principal": null,
+    "expected_build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+    "fault_mode": "client",
+    "faults_armed_at_start": [],
+    "features": [
+      "durable",
+      "evidence",
+      "execution-records",
+      "inflight",
+      "ledger",
+      "lookup",
+      "principals",
+      "retention",
+      "strict-input"
+    ],
+    "get_execution_listed": false,
+    "get_operation_listed": false,
+    "http_status": 200,
+    "lrt_a3_k_only": "self-attested: the driver at 92bf1ba takes the committed digest as the recovered digest on a found attempt without comparing (driver ask (b)); this attempt's own digest is digest_returned",
+    "protocol_version": "2025-11-25",
+    "run_id": null,
+    "server_info": {
+      "name": "tiny-tracker",
+      "version": "0.3.0"
+    },
+    "target_tool_accepts_idempotency_key": false,
+    "target_tool_annotations": null,
+    "target_tool_listed": false
+  },
+  "run_tag": "42514abd5d",
+  "started_at": "2026-11-23T18:11:06.305366Z",
+  "system_name": "tiny-tracker 0.3.0, correct build (local, 127.0.0.1)",
+  "tool": "create_ticket"
+}

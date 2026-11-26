@@ -1,0 +1,56 @@
+{
+  "K": "lr-op-42514abd5d-a1",
+  "adapter": "tiny_tracker",
+  "adapter_config": {
+    "args_template": {
+      "description": "lost-response harness, session {SESSION}",
+      "priority": 3,
+      "title": "{K} lost-response probe"
+    },
+    "backend_token_env": "TRACKER_BACKEND_TOKEN",
+    "backend_url": "http://127.0.0.1:4711",
+    "build": {
+      "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+      "defects": {
+        "backend": [],
+        "mcp": []
+      },
+      "features": [
+        "durable",
+        "evidence",
+        "execution-records",
+        "inflight",
+        "ledger",
+        "lookup",
+        "principals",
+        "retention",
+        "strict-input"
+      ],
+      "start_command": "tiny-tracker all --features evidence,strict-input,ledger,durable,inflight,retention --data-dir <run-root>/run/data --token-dir <run-root>/run/tokens --port 4710 --backend-port 4711"
+    },
+    "drop_timeout_s": 5,
+    "evidence_token_env": "TRACKER_EVIDENCE_TOKEN",
+    "expected_build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+    "fault": "client",
+    "mcp_url": "http://127.0.0.1:4710/mcp",
+    "mismatch": {
+      "altered_value": 4,
+      "field": "priority"
+    },
+    "protocol_version": "2025-11-25",
+    "token_dir": "<run-root>/run/tokens",
+    "tool": "create_ticket"
+  },
+  "assertion": "A5",
+  "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+  "delay_hours": 24,
+  "due_at": "2026-11-24T18:11:06.374917Z",
+  "endpoint": "http://127.0.0.1:4710/mcp",
+  "execution_receipt_ids": [
+    "X-1"
+  ],
+  "note": "Delayed leg: run this harness with --delayed-leg on this file at or after due_at. The delay is measured from the original commit time (planted_at approximates it within the run; the exact attempt 1 send time is in a1_attempt1_dropped.json).",
+  "planted_at": "2026-11-23T18:11:06.374913Z",
+  "session_id": "lr-42514abd5d-a1",
+  "system_name": "tiny-tracker 0.3.0, correct build (local, 127.0.0.1)"
+}

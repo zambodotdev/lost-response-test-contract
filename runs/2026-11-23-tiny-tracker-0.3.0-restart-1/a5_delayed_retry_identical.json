@@ -1,0 +1,80 @@
+{
+  "K": "lr-op-42514abd5d-a1",
+  "arguments_sent": {
+    "description": "lost-response harness, session lr-42514abd5d-a1",
+    "idempotency_key": "lr-op-42514abd5d-a1",
+    "priority": 3,
+    "title": "lr-op-42514abd5d-a1 lost-response probe"
+  },
+  "at": "2026-11-24T18:34:52.510216Z",
+  "call": {
+    "body": {
+      "id": "73d19a9d7d6d4c32934399d4dfcd1ec6",
+      "jsonrpc": "2.0",
+      "result": {
+        "_meta": {
+          "dev.writesafety.tiny-tracker/build": {
+            "boot_id": "889b99f5738a5ad6",
+            "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+            "descriptor_hash": "242adf75b82bafe9a69a99230a80d33252544916d79aef197f2aac3e0ac57d51"
+          }
+        },
+        "content": [
+          {
+            "text": "Ticket T-1 was already created by an earlier call with this idempotency_key; nothing new was written (replay).",
+            "type": "text"
+          },
+          {
+            "text": "{\"id\":\"T-1\",\"version\":1,\"changed\":[],\"replayed\":true,\"project\":\"inbox\",\"mws\":{\"shape\":\"write-result/0.1\",\"outcome\":\"applied\",\"operation\":\"create\",\"repeat\":\"same_key\",\"object\":{\"type\":\"ticket\",\"scope\":\"inbox\",\"id\":\"T-1\",\"version\":1},\"changed\":[\"/description\",\"/priority\",\"/title\"],\"replayed\":true}}",
+            "type": "text"
+          }
+        ],
+        "structuredContent": {
+          "changed": [],
+          "id": "T-1",
+          "mws": {
+            "changed": [
+              "/description",
+              "/priority",
+              "/title"
+            ],
+            "object": {
+              "id": "T-1",
+              "scope": "inbox",
+              "type": "ticket",
+              "version": 1
+            },
+            "operation": "create",
+            "outcome": "applied",
+            "repeat": "same_key",
+            "replayed": true,
+            "shape": "write-result/0.1"
+          },
+          "project": "inbox",
+          "replayed": true,
+          "version": 1
+        }
+      }
+    },
+    "dropped": false,
+    "mws_outcome": "applied",
+    "receipt_ids": [
+      "T-1"
+    ],
+    "replayed": true,
+    "response_class": "success",
+    "transport": {
+      "content_type": "text/event-stream",
+      "elapsed_ms": 16,
+      "http_status": 200,
+      "jsonrpc_id": "73d19a9d7d6d4c32934399d4dfcd1ec6",
+      "method": "POST",
+      "received_at": "2026-11-24T18:34:52.510164Z",
+      "response_bytes": 1181,
+      "sent_at": "2026-11-24T18:34:52.494535Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  },
+  "label": "a5_delayed_retry_identical",
+  "session_id": "lr-42514abd5d-a1"
+}

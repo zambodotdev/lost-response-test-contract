@@ -1,0 +1,37 @@
+{
+  "K": "lr-op-42514abd5d-a1",
+  "at": "2026-11-23T18:11:06.350474Z",
+  "attributed_records": [
+    {
+      "at": "2026-11-23T18:11:06.337Z",
+      "counted_as_execution": true,
+      "execution_id": "X-1",
+      "key": "lr-op-42514abd5d-a1",
+      "key_is_K": true,
+      "kind": "execution",
+      "ledger_seq": 2,
+      "objects": [
+        {
+          "id": "T-1",
+          "type": "ticket"
+        }
+      ],
+      "run": null,
+      "status": 201
+    }
+  ],
+  "counter": "ledger",
+  "execution_record_ids": [
+    "X-1"
+  ],
+  "executions_listing_http_status": 200,
+  "external_effect_count": 1,
+  "from_execution_records": [],
+  "label": "a1_after_attempt1",
+  "listing_http_status": 200,
+  "method": "GET <backend>/ledger (evidence token), read directly, not through MCP; each entry of kind execution whose operation tag is the session identity and whose key is K or absent is one committed execution of the operation; GET <backend>/executions adds the executions the in-memory ledger no longer holds after a restart (same attribution, counted once)",
+  "refusal_records": [],
+  "replay_records": [],
+  "run_id": null,
+  "session_id": "lr-42514abd5d-a1"
+}

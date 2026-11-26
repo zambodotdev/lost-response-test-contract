@@ -1,0 +1,66 @@
+{
+  "K": "lr-op-42514abd5d-a1",
+  "arguments_sent": {
+    "description": "lost-response harness, session lr-42514abd5d-a1",
+    "idempotency_key": "lr-op-42514abd5d-a1",
+    "priority": 4,
+    "title": "lr-op-42514abd5d-a1 lost-response probe"
+  },
+  "at": "2026-11-24T18:34:52.519297Z",
+  "call": {
+    "body": {
+      "id": "fea71ce0a2064e229770b6d1f829abae",
+      "jsonrpc": "2.0",
+      "result": {
+        "_meta": {
+          "dev.writesafety.tiny-tracker/build": {
+            "boot_id": "889b99f5738a5ad6",
+            "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+            "descriptor_hash": "242adf75b82bafe9a69a99230a80d33252544916d79aef197f2aac3e0ac57d51"
+          }
+        },
+        "content": [
+          {
+            "text": "This idempotency_key was already used with different arguments; nothing was written. If you are retrying the same create, send exactly the same arguments as the first call; list your tickets before using a new key, or you may create a duplicate.",
+            "type": "text"
+          },
+          {
+            "text": "{\"written\":false,\"error\":\"idempotency_key_reused\",\"mws\":{\"shape\":\"write-result/0.1\",\"outcome\":\"not_applied\",\"operation\":\"create\",\"repeat\":\"no\",\"code\":\"idempotency_key_reused\",\"argument\":\"/idempotency_key\"}}",
+            "type": "text"
+          }
+        ],
+        "isError": true,
+        "structuredContent": {
+          "error": "idempotency_key_reused",
+          "mws": {
+            "argument": "/idempotency_key",
+            "code": "idempotency_key_reused",
+            "operation": "create",
+            "outcome": "not_applied",
+            "repeat": "no",
+            "shape": "write-result/0.1"
+          },
+          "written": false
+        }
+      }
+    },
+    "dropped": false,
+    "mws_outcome": "not_applied",
+    "receipt_ids": [],
+    "replayed": null,
+    "response_class": "tool_error:idempotency_key_reused",
+    "transport": {
+      "content_type": "text/event-stream",
+      "elapsed_ms": 3,
+      "http_status": 200,
+      "jsonrpc_id": "fea71ce0a2064e229770b6d1f829abae",
+      "method": "POST",
+      "received_at": "2026-11-24T18:34:52.519258Z",
+      "response_bytes": 1123,
+      "sent_at": "2026-11-24T18:34:52.516659Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  },
+  "label": "a5_delayed_retry_mismatched",
+  "session_id": "lr-42514abd5d-a1"
+}

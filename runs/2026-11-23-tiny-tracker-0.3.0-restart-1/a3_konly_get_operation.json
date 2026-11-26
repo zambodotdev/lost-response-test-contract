@@ -1,0 +1,61 @@
+{
+  "body": {
+    "id": "7265bd301b22486d98ab7335abafc69a",
+    "jsonrpc": "2.0",
+    "result": {
+      "_meta": {
+        "dev.writesafety.tiny-tracker/build": {
+          "boot_id": "7733a896c1739d42",
+          "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+          "descriptor_hash": "bc407de8fd282a69df84fca6fb6c49fde9a9264547f127f2891bf2a924b2f5a0"
+        }
+      },
+      "content": [
+        {
+          "text": "The write with idempotency_key \"lr-op-42514abd5d-a1\" was applied once (state completed, status 201), as execution X-1, committed at 2026-11-23T18:11:06.337Z.\nresult_digest: 66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4\nRead the committed result with get_execution and the arguments {\"id\":\"X-1\"}.",
+          "type": "text"
+        }
+      ],
+      "structuredContent": {
+        "found": true,
+        "operation": {
+          "clock_offset_ms": 0,
+          "completed_at": "2026-11-23T18:11:06.337Z",
+          "created_at": "2026-11-23T18:11:06.337Z",
+          "execution_id": "X-1",
+          "expires_at": null,
+          "fingerprint_hash": "66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867",
+          "key": "lr-op-42514abd5d-a1",
+          "principal": "p-default",
+          "record": "operation-record/1",
+          "result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+          "run": null,
+          "state": "completed",
+          "status": 201
+        }
+      }
+    }
+  },
+  "request": {
+    "id": "7265bd301b22486d98ab7335abafc69a",
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+      "arguments": {
+        "idempotency_key": "lr-op-42514abd5d-a1"
+      },
+      "name": "get_operation"
+    }
+  },
+  "transport": {
+    "content_type": "text/event-stream",
+    "elapsed_ms": 1,
+    "http_status": 200,
+    "jsonrpc_id": "7265bd301b22486d98ab7335abafc69a",
+    "method": "POST",
+    "received_at": "2026-11-23T18:11:06.372826Z",
+    "response_bytes": 1179,
+    "sent_at": "2026-11-23T18:11:06.371409Z",
+    "url": "http://127.0.0.1:4710/mcp"
+  }
+}

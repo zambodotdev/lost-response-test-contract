@@ -1,0 +1,40 @@
+{
+  "body_text": "{\"record\":\"operation-record/1\",\"key\":\"lr-op-42514abd5d-a1\",\"principal\":\"p-default\",\"run\":null,\"state\":\"completed\",\"fingerprint_hash\":\"66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867\",\"created_at\":\"2026-11-23T18:11:06.337Z\",\"completed_at\":\"2026-11-23T18:11:06.337Z\",\"expires_at\":null,\"clock_offset_ms\":0,\"execution_id\":\"X-1\",\"result_digest\":\"66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4\",\"status\":201}",
+  "content_type": "application/json",
+  "digests": {
+    "result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4"
+  },
+  "fetched_at": "2026-11-24T18:34:52.719974Z",
+  "http_status": 200,
+  "kind": "operation-record",
+  "recomputation": {
+    "alg": "sha-256",
+    "canonical_bytes_are_rfc8785": true,
+    "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+    "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+    "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+    "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+    "operation_result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "status": "matched",
+    "via": "the execution record X-1 named by the operation record (HTTP 200)"
+  },
+  "record_id": "lr-op-42514abd5d-a1",
+  "record_json": {
+    "clock_offset_ms": 0,
+    "completed_at": "2026-11-23T18:11:06.337Z",
+    "created_at": "2026-11-23T18:11:06.337Z",
+    "execution_id": "X-1",
+    "expires_at": null,
+    "fingerprint_hash": "66a51aafba83334162d554b59d38286b6bc4cd3b94618597f33695673fb9a867",
+    "key": "lr-op-42514abd5d-a1",
+    "principal": "p-default",
+    "record": "operation-record/1",
+    "result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "run": null,
+    "state": "completed",
+    "status": 201
+  },
+  "url": "http://127.0.0.1:4711/operations/lr-op-42514abd5d-a1"
+}

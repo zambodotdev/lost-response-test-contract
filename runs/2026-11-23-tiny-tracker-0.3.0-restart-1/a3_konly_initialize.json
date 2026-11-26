@@ -1,0 +1,62 @@
+{
+  "initialize": {
+    "body": {
+      "id": "5c75b68b0f794156b3068521882e706c",
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {
+            "listChanged": true
+          }
+        },
+        "instructions": "A small issue tracker. Read a ticket's version with get_ticket and pass it as expected_version when you write. Fixture build (build-descriptor/1; full descriptor at GET /build on the backend, evidence token): {\"build_hash\":\"406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91\",\"profile\":\"default\",\"features\":[\"durable\",\"evidence\",\"execution-records\",\"inflight\",\"ledger\",\"lookup\",\"principals\",\"retention\",\"strict-input\"],\"defects\":{\"mcp\":[],\"backend\":[]},\"variants\":[],\"faults_armed\":[],\"clock_offset_ms\":0,\"control\":false}",
+        "protocolVersion": "2025-11-25",
+        "serverInfo": {
+          "name": "tiny-tracker",
+          "version": "0.3.0"
+        }
+      }
+    },
+    "request": {
+      "id": "5c75b68b0f794156b3068521882e706c",
+      "jsonrpc": "2.0",
+      "method": "initialize",
+      "params": {
+        "capabilities": {},
+        "clientInfo": {
+          "name": "lost-response-harness",
+          "version": "1.0.0"
+        },
+        "protocolVersion": "2025-11-25"
+      }
+    },
+    "transport": {
+      "content_type": "text/event-stream",
+      "elapsed_ms": 1,
+      "http_status": 200,
+      "jsonrpc_id": "5c75b68b0f794156b3068521882e706c",
+      "method": "POST",
+      "received_at": "2026-11-23T18:11:06.369349Z",
+      "response_bytes": 818,
+      "sent_at": "2026-11-23T18:11:06.368379Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  },
+  "notifications_initialized": {
+    "request": {
+      "jsonrpc": "2.0",
+      "method": "notifications/initialized"
+    },
+    "transport": {
+      "content_type": null,
+      "elapsed_ms": 1,
+      "http_status": 202,
+      "jsonrpc_id": null,
+      "method": "POST",
+      "received_at": "2026-11-23T18:11:06.370384Z",
+      "response_bytes": 0,
+      "sent_at": "2026-11-23T18:11:06.369371Z",
+      "url": "http://127.0.0.1:4710/mcp"
+    }
+  }
+}

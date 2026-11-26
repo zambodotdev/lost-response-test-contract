@@ -1,0 +1,146 @@
+{
+  "assertion": "A5",
+  "checks": {
+    "recovery": {
+      "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "k_only_http_status": 200,
+      "reason": "K-only lookup returned the original outcome with a digest equal to the independently recorded committed digest",
+      "recovered_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "run_id": {
+        "note": "diagnostic evidence only; the run-id lookup does not gate the recovery verdict",
+        "run_id_digest_equal": true,
+        "run_id_digest_served": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "run_id_http_status": 200
+      },
+      "score": "pass"
+    },
+    "retry_protection": {
+      "effect_count_after_identical": 1,
+      "effect_count_before": 1,
+      "effect_count_final": 1,
+      "reason": "recorded effect counts for the same scoped operation are unchanged (1 before, 1 after) and bracket both the identical retry and the changed-argument retry, each observed at or after the agreed delay: zero new effects",
+      "score": "pass"
+    }
+  },
+  "delayed_leg_run_at": "2026-11-24T18:34:52.712442Z",
+  "legs": {
+    "k_only_direct_lookup": {
+      "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "digest_equal": true,
+      "digests": {
+        "result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4"
+      },
+      "http_status": 200,
+      "recomputation": {
+        "alg": "sha-256",
+        "canonical_bytes_are_rfc8785": true,
+        "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+        "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+        "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+        "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+        "operation_result_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "status": "matched",
+        "via": "the execution record X-1 named by the operation record (HTTP 200)"
+      },
+      "recovered_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4"
+    },
+    "run_id": {
+      "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "digest_equal": true,
+      "digest_served": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "http_status": 200,
+      "note": "diagnostic evidence only; the run-id lookup does not gate the A5 recovery verdict",
+      "recomputation": {
+        "alg": "sha-256",
+        "canonical_bytes_are_rfc8785": true,
+        "domain": "dev.writesafety.tiny-tracker/execution-result/1",
+        "informational_bare_sha256": "17f2c935cc7f59fa69fe5151494c11cac7b52b0f0df00ebde5387fe874bc2195",
+        "informational_note": "SHA-256 of the canonical bytes without the domain tag; it differs from the served digest by design (tiny-tracker decision 0002)",
+        "method": "SHA-256 over UTF-8(domain) || 0x0A || UTF-8(canonical), from the served bytes",
+        "recomputed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "served_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+        "status": "matched"
+      }
+    }
+  },
+  "plant": {
+    "K": "lr-op-42514abd5d-a1",
+    "adapter": "tiny_tracker",
+    "adapter_config": {
+      "args_template": {
+        "description": "lost-response harness, session {SESSION}",
+        "priority": 3,
+        "title": "{K} lost-response probe"
+      },
+      "backend_token_env": "TRACKER_BACKEND_TOKEN",
+      "backend_url": "http://127.0.0.1:4711",
+      "build": {
+        "build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+        "defects": {
+          "backend": [],
+          "mcp": []
+        },
+        "features": [
+          "durable",
+          "evidence",
+          "execution-records",
+          "inflight",
+          "ledger",
+          "lookup",
+          "principals",
+          "retention",
+          "strict-input"
+        ],
+        "start_command": "tiny-tracker all --features evidence,strict-input,ledger,durable,inflight,retention --data-dir <run-root>/run/data --token-dir <run-root>/run/tokens --port 4710 --backend-port 4711"
+      },
+      "drop_timeout_s": 5,
+      "evidence_token_env": "TRACKER_EVIDENCE_TOKEN",
+      "expected_build_hash": "406952794cf06fbf3993a7925dabb628479810e96c4faad6b78f6181af9e2b91",
+      "fault": "client",
+      "mcp_url": "http://127.0.0.1:4710/mcp",
+      "mismatch": {
+        "altered_value": 4,
+        "field": "priority"
+      },
+      "protocol_version": "2025-11-25",
+      "token_dir": "<run-root>/run/tokens",
+      "tool": "create_ticket"
+    },
+    "assertion": "A5",
+    "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "delay_hours": 24,
+    "due_at": "2026-11-24T18:11:06.374917Z",
+    "endpoint": "http://127.0.0.1:4710/mcp",
+    "execution_receipt_ids": [
+      "X-1"
+    ],
+    "note": "Delayed leg: run this harness with --delayed-leg on this file at or after due_at. The delay is measured from the original commit time (planted_at approximates it within the run; the exact attempt 1 send time is in a1_attempt1_dropped.json).",
+    "planted_at": "2026-11-23T18:11:06.374913Z",
+    "session_id": "lr-42514abd5d-a1",
+    "system_name": "tiny-tracker 0.3.0, correct build (local, 127.0.0.1)"
+  },
+  "reason": "A5 scored by score_a5 from recorded observations only: recovery: pass \u2014 K-only lookup returned the original outcome with a digest equal to the independently recorded committed digest; retry protection: pass \u2014 recorded effect counts for the same scoped operation are unchanged (1 before, 1 after) and bracket both the identical retry and the changed-argument retry, each observed at or after the agreed delay: zero new effects; see a5_delayed_result.json",
+  "recovery": {
+    "committed_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "k_only_http_status": 200,
+    "reason": "K-only lookup returned the original outcome with a digest equal to the independently recorded committed digest",
+    "recovered_digest": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+    "run_id": {
+      "note": "diagnostic evidence only; the run-id lookup does not gate the recovery verdict",
+      "run_id_digest_equal": true,
+      "run_id_digest_served": "66b027b4ce0d391ec520d149b38ebc0dd293854d4a08fc9917ced5b32719f6d4",
+      "run_id_http_status": 200
+    },
+    "score": "pass"
+  },
+  "retry_protection": {
+    "effect_count_after_identical": 1,
+    "effect_count_before": 1,
+    "effect_count_final": 1,
+    "reason": "recorded effect counts for the same scoped operation are unchanged (1 before, 1 after) and bracket both the identical retry and the changed-argument retry, each observed at or after the agreed delay: zero new effects",
+    "score": "pass"
+  },
+  "score": "pass"
+}
